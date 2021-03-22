@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  *  Classe Jogador
  *  Classe que define os parametros de cada jogador
@@ -23,8 +25,14 @@ public class Jogador {
     private int POS; // Posição
     private static int ID_Skill; //qual o id da sua classe de skills
 
+
+    /**  Metodo Jogador
+     * Cria 1 jogador novo
+     *
+     *
+     * */
     public Jogador(){
-        this.ID = Id.NewID(); // TODO: criar 1 função que atribua id unicos a cada jogador e que quando invocada de 1 numero novo e o adicone a lista de numeros usados
+        this.ID = ID.NewPlayID(); // TODO: Utilizar o tree set ou o hash set para criar 1 array que servirá como BD dos ID disponiveis e usados
         this.NOME ="John Cena" ; // nome Standard
         this.POS = 0; // Posição Standard
         this.ID_Skill = Skill.getNew_ID(); // TODO: Criar a classe skill
@@ -97,5 +105,4 @@ public class Jogador {
         Jogador.ID_Skill = ID_Skill; // TODO: funçao que verifique se ID da Skill está livre
     }
 
-
-}
+  }
