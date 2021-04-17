@@ -1,29 +1,29 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
  *  Classe Jogador
  *  Classe que define os parametros de cada jogador
  *
- *
- *
  * @author Pedro Faria
  * @since 0.1
  */
 
 public class Jogador {
+
     private static int ID; //ID UNICO
     private String NOME; // Nome
-
-
-    // * 0. Não defenida
-    // * 1. Guarda-Redes
-    // * 2. Defesas
-    // * 3. Médios
-    // * 4. Avançados
-    // * 5. Laterais
+    public Map<String,Integer> Skill = new HashMap<>();
 
     private int POS; // Posição
-    private static int ID_Skill; //qual o id da sua classe de skills
+    public static final int undefined = 0;  // * 0. Não defenida
+    public static final int GR = 1;         // * 1. Guarda-Redes
+    public static final int Def = 2;        // * 2. Defesas
+    public static final int Med = 3;        // * 3. Médios
+    public static final int Ava = 4;        // * 4. Avançados
+    public static final int Lat = 5;        // * 5. Laterais
+
 
 
     /**  Metodo Jogador
@@ -35,21 +35,20 @@ public class Jogador {
         this.ID = ID.NewPlayID(); // TODO: Utilizar o tree set ou o hash set para criar 1 array que servirá como BD dos ID disponiveis e usados
         this.NOME ="John Cena" ; // nome Standard
         this.POS = 0; // Posição Standard
-        this.ID_Skill = Skill.getNew_ID(); // TODO: Criar a classe skill
+        this.setSkill();
     }
 
-    public Jogador(int id, String nome, int pos, int id_skill){
+    public Jogador(int id, String nome, int pos,int skill){
         this.ID = id;
         this.NOME = nome;
         this.POS = pos;
-        this.ID_Skill = id_skill;
-    }
+        this.setSkill(skill);
+            }
 
     public Jogador(Jogador umJogador){
         this.ID = umJogador.ID;
         this.NOME = umJogador.NOME;
         this.POS = umJogador.POS;
-        this.ID_Skill = umJogador.ID_SKILL;
     }
 
     /**
@@ -80,7 +79,7 @@ public class Jogador {
     }
 
     /**
-     * Método que devolve numero do ID do Jogador
+     * Método que devolve numero da posição do Jogador
      *
      * @return int com o numero da posição
      */
@@ -92,17 +91,31 @@ public class Jogador {
         this.POS = POS;
     }
 
-    /**
-     * Método que devolve numero do ID das Habilidades do Jogador
-     *
-     * @return int com o numero de identificação das Habilidades
-     */
-    public static int getID_Skill() {
-        return ID_Skill;
+    public void setSkill(){
+        this.Skill.put("Velocidade",10);
+        this.Skill.put("Resistência",10);
+        this.Skill.put("Destreza",10);
+        this.Skill.put("Impulsão",10);
+        this.Skill.put("Jogo de Cabeça",10);
+        this.Skill.put("Remate",10);
+        this.Skill.put("Capacidade de Passe",10);
     }
 
-    public static void setID_Skill(int ID_Skill) {
-        Jogador.ID_Skill = ID_Skill; // TODO: funçao que verifique se ID da Skill está livre
+    public void setSkill(int k) {
+        k = k >= 20 ? 20 : Math.max(k, 0); //assegura que esta dentro dos valores aceites
+        this.Skill.put("Velocidade", k);
+        this.Skill.put("Resistência", k);
+        this.Skill.put("Destreza", k);
+        this.Skill.put("Impulsão", k);
+        this.Skill.put("Jogo de Cabeça", k);
+        this.Skill.put("Remate", k);
+        this.Skill.put("Capacidade de Passe", k);
     }
 
-  }
+
+
+
+
+
+
+}

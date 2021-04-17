@@ -12,27 +12,27 @@ import java.util.ArrayList;
 
 
 public class Equipa{
-    private int ID;
+    private int TeamID;
     private String Nome;
-    private ArrayList Jogadores;
+    private ArrayList<Jogador> Players;
 
 
     public Equipa() {
-        this.ID = ID.newTeamID(); // TODO: Utilizar o tree set ou o hash set para criar 1 array que servirá como BD dos ID disponiveis e usados
+        this.TeamID = ID.getNewID(); // TODO: Utilizar o tree set ou o hash set para criar 1 array que servirá como BD dos ID disponiveis e usados
         this.Nome = "Unidos da Moita";
         this.Jogadores = new ArrayList();
 
     }
     public Equipa(ID teamID, String nome, ArrayList jogadores) {
-        this.ID = ID;
+        this.TeamID = ID.setID(teamID);
         Nome = nome;
-        this.Jogadores = (ArrayList) jogadores.clone();
+        this.Players = (ArrayList) jogadores.clone();
     }
 
     public Equipa(Equipa team){
-        this.ID = team.ID;
+        this.TeamID = team.TeamID;
         this.Nome = team.Nome;
-        this.Jogadores = team.Jogadores;
+        this.PLayers = team.Players;
     }
 
     public String getNome() {
