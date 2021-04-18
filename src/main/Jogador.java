@@ -12,9 +12,10 @@ import java.util.Objects;
 
 public class Jogador {
 
-    private static int ID; //ID UNICO
+    private int uniqueID; //ID UNICO
     private String NOME; // Nome
-    public Map<String,Integer> Skill = new HashMap<>();
+    private Map<String,Integer> Skill = new HashMap<>();
+
 
     private int POS; // Posição
     public static final int undefined = 0;  // * 0. Não defenida
@@ -32,14 +33,14 @@ public class Jogador {
      *
      * */
     public Jogador(){
-        this.ID = ID.NewPlayID(); // TODO: Utilizar o tree set ou o hash set para criar 1 array que servirá como BD dos ID disponiveis e usados
         this.NOME ="John Cena" ; // nome Standard
         this.POS = 0; // Posição Standard
+        this.uniqueID = ID.newPlayerID(NOME);
         this.setSkill();
     }
 
     public Jogador(int id, String nome, int pos,int skill){
-        this.ID = id;
+        this.uniqueID = ID.getIDplayerName(id);
         this.NOME = nome;
         this.POS = pos;
         this.setSkill(skill);
