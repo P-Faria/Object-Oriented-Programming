@@ -9,6 +9,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 public class Equipa{
@@ -18,21 +19,21 @@ public class Equipa{
 
 
     public Equipa() {
-        this.TeamID = ID.getNewID(); // TODO: Utilizar o tree set ou o hash set para criar 1 array que servirá como BD dos ID disponiveis e usados
+        this.TeamID = 0;
         this.Nome = "Unidos da Moita";
-        this.Jogadores = new ArrayList();
+        this.Players = new ArrayList<>();
 
     }
-    public Equipa(ID teamID, String nome, ArrayList jogadores) {
-        this.TeamID = ID.setID(teamID);
+    public Equipa(int id, String nome, ArrayList<Jogador> jogadores) {
+        this.TeamID = id;
         Nome = nome;
-        this.Players = (ArrayList) jogadores.clone();
+        this.Players = new ArrayList<Jogador>(jogadores);
     }
 
     public Equipa(Equipa team){
         this.TeamID = team.TeamID;
         this.Nome = team.Nome;
-        this.PLayers = team.Players;
+        this.Players = team.Players;
     }
 
     public String getNome() {
@@ -41,6 +42,36 @@ public class Equipa{
 
     public void setNome(String nome) {
         Nome = nome;
+    }
+
+    public void addToTeam(Jogador player,Equipa team){
+        if ((this.Nome.equals(team.Nome)) && (this.TeamID == team.TeamID)){
+            if (!(Players.contains(player))){
+                this.Players.add(player);
+            }else throw new IllegalArgumentException("Player already in team: use editPlayerTeam");
+        }else throw new IllegalArgumentException("Equipa não é igual");
+    }
+
+
+    public void addToTeam(Jogador player){
+        if (!(Players.contains(player))){
+                this.Players.add(player);
+            }else throw new IllegalArgumentException("Player already in team: use editPlayerTeam");
+    }
+
+    public Jogador getPlayerfromTeam(int id){
+        int index = Players.stream().collect(Collectors.filtering(Jogador.)) //TODO: receber um int id e devolver o player
+
+    }
+
+
+    public void editPlayerTeam(Jogador player,Equipa team) {
+        if ((this.Nome.equals(team.Nome)) && (this.TeamID == team.TeamID)) {
+            if (Players.contains(player)) {
+                Players.remove(player);
+
+            }
+        }
     }
 
 

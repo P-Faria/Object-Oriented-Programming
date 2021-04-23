@@ -3,12 +3,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Skill extends Jogador{
+public class Skill{
 
     public Map<String,Integer> Skill = new HashMap<>();
     public int ID;
 
     public Skill(){
+        this.ID = 0;
         this.Skill.put("Velocidade",10);
         this.Skill.put("Resistência",10);
         this.Skill.put("Destreza",10);
@@ -19,6 +20,7 @@ public class Skill extends Jogador{
     }
 
     public Skill(Jogador player,int k){
+        this.ID = player.getID();
         k = k>=20?20 : Math.max(k, 0); //assegura que esta dentro dos valores aceites
         this.Skill.put("Velocidade",k);
         this.Skill.put("Resistência",k);
@@ -27,11 +29,7 @@ public class Skill extends Jogador{
         this.Skill.put("Jogo de Cabeça",k);
         this.Skill.put("Remate",k);
         this.Skill.put("Capacidade de Passe",k);
-        if (this.getPOS() ==GR)
-    }
-
-    public void SpecialSkill(){
-        if (this.getPOS() == GR)
+        //TODO: Adicionar especificidade de posições
     }
 
 }

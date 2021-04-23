@@ -35,21 +35,22 @@ public class Jogador {
     public Jogador(){
         this.NOME ="John Cena" ; // nome Standard
         this.POS = 0; // Posição Standard
-        this.uniqueID = ID.newPlayerID(NOME);
+        this.uniqueID = 0;
         this.setSkill();
     }
 
     public Jogador(int id, String nome, int pos,int skill){
-        this.uniqueID = ID.getIDplayerName(id);
+        this.uniqueID = id;
         this.NOME = nome;
         this.POS = pos;
         this.setSkill(skill);
-            }
+    }
 
     public Jogador(Jogador umJogador){
-        this.ID = umJogador.ID;
+        this.uniqueID = umJogador.uniqueID;
         this.NOME = umJogador.NOME;
         this.POS = umJogador.POS;
+        this.Skill = umJogador.Skill;
     }
 
     /**
@@ -58,11 +59,11 @@ public class Jogador {
      * @return int com o numero de identificação
      */
     public int getID(){
-        return this.ID;
+        return this.uniqueID;
     }
 
-    public static void setID(int ID) {
-        Jogador.ID = ID; // TODO: funçao que verifique se ID está livre
+    public void setID(int ID) {
+        this.uniqueID = ID; // TODO: funçao que verifique se ID está livre
     }
 
     /**
@@ -102,15 +103,21 @@ public class Jogador {
         this.Skill.put("Capacidade de Passe",10);
     }
 
-    public void setSkill(int k) {
-        k = k >= 20 ? 20 : Math.max(k, 0); //assegura que esta dentro dos valores aceites
-        this.Skill.put("Velocidade", k);
-        this.Skill.put("Resistência", k);
-        this.Skill.put("Destreza", k);
-        this.Skill.put("Impulsão", k);
-        this.Skill.put("Jogo de Cabeça", k);
-        this.Skill.put("Remate", k);
-        this.Skill.put("Capacidade de Passe", k);
+    public void setSkill(String name,int skill){
+        skill = skill >= 20 ? 20 : Math.max(skill, 0); //assegura que esta dentro dos valores aceites
+        this.Skill.put(name,skill);
+
+    }
+
+    public void setSkill(int skill) {
+        skill = skill >= 20 ? 20 : Math.max(skill, 0); //assegura que esta dentro dos valores aceites
+        this.Skill.put("Velocidade", skill);
+        this.Skill.put("Resistência", skill);
+        this.Skill.put("Destreza", skill);
+        this.Skill.put("Impulsão", skill);
+        this.Skill.put("Jogo de Cabeça", skill);
+        this.Skill.put("Remate", skill);
+        this.Skill.put("Capacidade de Passe", skill);
     }
 
 
