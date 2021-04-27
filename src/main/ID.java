@@ -1,6 +1,4 @@
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  *  Classe ID
@@ -10,6 +8,8 @@ import java.util.Map;
  *
  * @author Pedro Faria
  */
+
+
 public class ID {
 Map<Integer,String> player;
 Map<Integer,String> team;
@@ -19,9 +19,19 @@ public ID(){
     this.player = new HashMap();
     this.team = new HashMap();
 }
-public Integer newPlayerID(String playername){
 
-    return getID(playername, player);
+public ID(Map<Integer, String> player, Map<Integer, String> team) {
+    this.player = player;
+    this.team = team;
+}
+
+    /**
+     * Cria um Jogador e atribu-lhe um ID
+     * @param playername Nome do Jogador
+     * @return Integer - Numero de ID do Jogador criado
+     */
+    public Integer newPlayerID(String playername){
+    return createID(playername, player);
 }
 
     public Integer getPlayerID(String playername) {
@@ -34,8 +44,7 @@ public Integer newPlayerID(String playername){
         }
     }
     else {
-        System.out.println("getPlayerID: ID not found!");
-        return null;
+        throw new IllegalArgumentException("getPlayerID: ID not found!");
     }
     return null;
 
@@ -48,7 +57,7 @@ public String getIDplayerName(Integer id){
 
     public Integer newTeamID(String teamname){
 
-        return getID(teamname, team);
+        return createID(teamname, team);
     }
 
 
@@ -64,8 +73,7 @@ public String getIDplayerName(Integer id){
             }
         }
         else {
-            System.out.println("getTeamID: ID not found!");
-            return null;
+            throw new IllegalArgumentException("getTeamID: ID not found!");
         }
         return null;
 
@@ -77,9 +85,14 @@ public String getIDplayerName(Integer id){
     }
 
 
-
-
-    private Integer getID(String name, Map<Integer, String> map) {
+    /**
+     * Cria uma nova entidade na base de dados enviada
+     *
+     * @param name Nome da Equipa/Player
+     * @param map  Em que Map ficará guardado
+     * @return  Numero de ID da entidade criada
+     */
+    private Integer createID(String name, Map<Integer, String> map) {
         int maxID = Collections.max(map.entrySet(), Map.Entry.comparingByValue()).getKey();
         int newID;
 
@@ -88,8 +101,28 @@ public String getIDplayerName(Integer id){
 
         if (map.putIfAbsent(newID,name) == null) return newID;
         else {
-            System.out.println("newPlayerID : ID já existe");
-            return null;
+            throw new IllegalArgumentException("newPlayerID : ID já existe");
         }
     }
+
+
+    public Map<Integer, String> getPlayer() {
+        return player;
+    }
+
+    public Map<Integer, String> getTeam() {
+        return team;
+    }
+
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ID id = (ID) o;
+        return Objects.equals(this.getPlayer(), id.getPlayer()) && Objects.equals(this.getTeam(), id.getTeam());
+    }
+
 }

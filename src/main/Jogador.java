@@ -14,7 +14,7 @@ public class Jogador {
 
     private int uniqueID; //ID UNICO
     private String NOME; // Nome
-    private Map<String,Integer> Skill = new HashMap<>();
+    private Map<String,Integer> Skill;
 
 
     private int POS; // Posição
@@ -101,6 +101,7 @@ public class Jogador {
         this.Skill.put("Jogo de Cabeça",10);
         this.Skill.put("Remate",10);
         this.Skill.put("Capacidade de Passe",10);
+
     }
 
     public void setSkill(String name,int skill){
@@ -120,10 +121,20 @@ public class Jogador {
         this.Skill.put("Capacidade de Passe", skill);
     }
 
+    private String skillPos(Jogador player){
+        if (player.POS == undefined) throw new IllegalArgumentException("Erro: Jogador.skillPos - POS errada");
+        if ( player.POS == GR) return
+        public static final int Def = 2;        // * 2. Defesas TODO:"Acabar posiçoes especiais
+        public static final int Med = 3;        // * 3. Médios
+        public static final int Ava = 4;        // * 4. Avançados
+        public static final int Lat = 5;        // * 5. Laterais
 
-
-
-
-
+    }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Jogador jogador = (Jogador) o;
+        return uniqueID == jogador.getID() && getPOS() == jogador.getPOS() && getNOME().equals(jogador.getNOME());
+    }
 
 }

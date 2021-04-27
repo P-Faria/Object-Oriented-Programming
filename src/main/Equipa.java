@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class Equipa{
     private int TeamID;
     private String Nome;
-    private ArrayList<Jogador> Players;
+    private ArrayList<Integer> Players;
 
 
     public Equipa() {
@@ -24,10 +24,17 @@ public class Equipa{
         this.Players = new ArrayList<>();
 
     }
-    public Equipa(int id, String nome, ArrayList<Jogador> jogadores) {
+
+    public Equipa(String nome,int id) {
+        this.TeamID = id;
+        this.Nome = nome;
+        this.Players = new ArrayList<>();
+
+    }
+    public Equipa(int id, String nome, ArrayList<Integer> jogadores) {
         this.TeamID = id;
         Nome = nome;
-        this.Players = new ArrayList<Jogador>(jogadores);
+        this.Players = new ArrayList<>(jogadores);
     }
 
     public Equipa(Equipa team){
@@ -44,35 +51,17 @@ public class Equipa{
         Nome = nome;
     }
 
-    public void addToTeam(Jogador player,Equipa team){
-        if ((this.Nome.equals(team.Nome)) && (this.TeamID == team.TeamID)){
-            if (!(Players.contains(player))){
-                this.Players.add(player);
-            }else throw new IllegalArgumentException("Player already in team: use editPlayerTeam");
-        }else throw new IllegalArgumentException("Equipa não é igual");
-    }
 
-
-    public void addToTeam(Jogador player){
+    public void addToTeam(int player){
         if (!(Players.contains(player))){
                 this.Players.add(player);
-            }else throw new IllegalArgumentException("Player already in team: use editPlayerTeam");
+            }else throw new IllegalArgumentException("Player already in team");
     }
 
-    public Jogador getPlayerfromTeam(int id){
-        int index = Players.stream().collect(Collectors.filtering(Jogador.)) //TODO: receber um int id e devolver o player
-
+    public void removePlayerTeam(int id){
+        if (Players.contains(id)){
+        Players.remove(Players.indexOf(id));
+        }else throw new IllegalArgumentException("Player not in Team");
     }
-
-
-    public void editPlayerTeam(Jogador player,Equipa team) {
-        if ((this.Nome.equals(team.Nome)) && (this.TeamID == team.TeamID)) {
-            if (Players.contains(player)) {
-                Players.remove(player);
-
-            }
-        }
-    }
-
 
 }
