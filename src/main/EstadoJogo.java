@@ -1,32 +1,34 @@
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Classe que gere tudo que é necessario para criar 1 jogo e o manter
  *
- * @author Pedro Faria - a72640
- *
+ * @author a82643 - João Pedro Goulart
+ * @author a72640 - Pedro Faria
+ * @author a87952 - Tiago Rodrigues
  */
 
 
-public class Gamestate {
+public class EstadoJogo {
 
 
     private String Nome;
     private Map<Integer,Jogador> PlayerDB;
     private Map<Integer,Equipa> TeamDB;
 
-    public Gamestate(){
+    public EstadoJogo(){
         Nome = "Default";
         PlayerDB = new HashMap<>();
         TeamDB = new HashMap<>();
 
     }
 
-    public Gamestate(String nome){
+    public EstadoJogo(String nome){
         Nome = nome;
     }
 
-    //metodos getter & setter
 
 
     public String getNome() {
@@ -61,7 +63,7 @@ public class Gamestate {
      * @param teamName Equipa a que pertence
      * @return  Id do Jogador criado
      */
-    private int createPlayer(String name, int pos,int skill,Equipa teamName) {
+    public int createPlayer(String name, int pos,int skill,Equipa teamName) {
         int maxID = Collections.max(PlayerDB.keySet());
         int pID = maxID +1;
         if (pID != 0) {
@@ -69,7 +71,7 @@ public class Gamestate {
             Jogador player = new Jogador(pID,name,pos,skill);
             PlayerDB.put(pID,player);
             return pID;
-        } else throw new IllegalArgumentException("Erro: createPlayer @ Gamestate");
+        } else throw new IllegalArgumentException("Erro: EstadoJogo.createPlayer");
     }
 
     /**
@@ -77,14 +79,14 @@ public class Gamestate {
      * @param name O nome da equipa a adicionar
      * @return O Id da equipa criada
      */
-    private int createTeam(String name){
+    public int createTeam(String name){
         int maxId = Collections.max(TeamDB.keySet());
         int tID = maxId +1;
         if (tID != 0){
-            Equipa team = new Equipa(name,tID);
+            Equipa team = new Equipa(tID,name);
             TeamDB.put(tID,team);
             return  tID;
-        }else throw new IllegalArgumentException("Erro: createTeam @ Gamestate");
+        }else throw new IllegalArgumentException("Erro: EstadoJogo.createTeam");
 
     }
 

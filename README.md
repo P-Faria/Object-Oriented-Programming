@@ -1,15 +1,13 @@
-# POO2021
+# POO 2021
 
 ## Projeto de Programação Orientada a Objectos
 
-### Licenciatura em Ciências da Computação - Universidade do Minho
+#### Licenciatura em Ciências da Computação - Universidade do Minho
 
-#### 2021
+##Grupo 83:
 
-####Autores:
-
-Pedro Faria - a72640
-
-João Goulart - a82643
-
-Tiago Rodrigues - a87952
+>João Goulart - a82643
+>
+>Pedro Faria - a72640
+>
+>Tiago Rodrigues - a87952

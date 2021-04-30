@@ -1,13 +1,14 @@
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
- *  Classe Jogador
  *  Classe que define os parametros de cada jogador
  *
- * @author Pedro Faria
- * @since 0.1
+ * @author a82643 - João Pedro Goulart
+ * @author a72640 - Pedro Faria
+ * @author a87952 - Tiago Rodrigues
  */
 
 public class Jogador {
@@ -25,13 +26,8 @@ public class Jogador {
     public static final int Ava = 4;        // * 4. Avançados
     public static final int Lat = 5;        // * 5. Laterais
 
+    //TODO: Criar classes que estendam Jogador para cada posição
 
-
-    /**  Metodo Jogador
-     * Cria 1 jogador novo
-     *
-     *
-     * */
     public Jogador(){
         this.NOME ="John Cena" ; // nome Standard
         this.POS = 0; // Posição Standard
@@ -101,11 +97,13 @@ public class Jogador {
         this.Skill.put("Jogo de Cabeça",10);
         this.Skill.put("Remate",10);
         this.Skill.put("Capacidade de Passe",10);
+        this.Skill.put(skillPos(this.POS),10);
 
     }
 
     public void setSkill(String name,int skill){
         skill = skill >= 20 ? 20 : Math.max(skill, 0); //assegura que esta dentro dos valores aceites
+        //e se inserem uma skill que não existe?
         this.Skill.put(name,skill);
 
     }
@@ -119,17 +117,27 @@ public class Jogador {
         this.Skill.put("Jogo de Cabeça", skill);
         this.Skill.put("Remate", skill);
         this.Skill.put("Capacidade de Passe", skill);
+        this.Skill.put(skillPos(this.POS),skill);
     }
 
-    private String skillPos(Jogador player){
-        if (player.POS == undefined) throw new IllegalArgumentException("Erro: Jogador.skillPos - POS errada");
-        if ( player.POS == GR) return
-        public static final int Def = 2;        // * 2. Defesas TODO:"Acabar posiçoes especiais
-        public static final int Med = 3;        // * 3. Médios
-        public static final int Ava = 4;        // * 4. Avançados
-        public static final int Lat = 5;        // * 5. Laterais
+    private String skillPos(int POS){
+        if ( POS == undefined) throw new IllegalArgumentException("Erro: Jogador.skillPos - POS undefined");
+        if ( POS == GR) return "Elasticidade";
+        if ( POS == Def) return "Recuperação de Bola";
+        if ( POS == Med) return "Visão de Jogo";
+        if ( POS == Ava) return "Finalização";
+        if ( POS == Lat) return "Capacidade de Cruzamento";
+        else throw new IllegalArgumentException("Erro:Jogador.skillPos - POS not defined");
+    }
+
+    public int getSkill(String skillName){
+        return this.Skill.get(skillName);
 
     }
+
+
+
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
