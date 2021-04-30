@@ -9,13 +9,18 @@
  */
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
-
-public class Equipa{
+/**
+ * Classe que gere tudo que define uma Equipa
+ *
+ * @author a82643 - João Pedro Goulart
+ * @author a72640 - Pedro Faria
+ * @author a87952 - Tiago Rodrigues
+ */
+public class Equipa {
     private int TeamID;
     private String Nome;
-    private ArrayList<Integer> Players;
+    private ArrayList<Integer> Players; // Guarda o ID unico do Jogador
 
 
     public Equipa() {
@@ -25,7 +30,7 @@ public class Equipa{
 
     }
 
-    public Equipa(String nome,int id) {
+    public Equipa(int id, String nome) {
         this.TeamID = id;
         this.Nome = nome;
         this.Players = new ArrayList<>();
@@ -33,7 +38,7 @@ public class Equipa{
     }
     public Equipa(int id, String nome, ArrayList<Integer> jogadores) {
         this.TeamID = id;
-        Nome = nome;
+        this.Nome = nome;
         this.Players = new ArrayList<>(jogadores);
     }
 
@@ -60,7 +65,7 @@ public class Equipa{
 
     public void removePlayerTeam(int id){
         if (Players.contains(id)){
-        Players.remove(Players.indexOf(id));
+        Players.remove(id);
         }else throw new IllegalArgumentException("Player not in Team");
     }
 
