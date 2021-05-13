@@ -1,96 +1,62 @@
-import java.util.Collections;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/**
- * Classe que gere tudo que é necessario para criar 1 jogo e o manter
- *
- * @author a82643 - João Pedro Goulart
- * @author a72640 - Pedro Faria
- * @author a87952 - Tiago Rodrigues
- */
-
-
 public class Jogo {
+    private String equipaCasa;
+    private String equipaFora;
+    private int golosCasa;
+    private int golosFora;
+    private LocalDate date;
+    private List<Integer> jogadoresCasa;
+    private List<Integer> jogadoresFora;
+    Map<Integer, Integer> substituicoesCasa = new HashMap<>();
+    Map<Integer, Integer> substitucoesFora = new HashMap<>();
 
-
-    private String Nome;
-    private Map<Integer,Jogador> PlayerDB;
-    private Map<Integer,Equipa> TeamDB;
-
-    public Jogo(){
-        Nome = "Default";
-        PlayerDB = new HashMap<>();
-        TeamDB = new HashMap<>();
-
+    public Jogo (String ec, String ef, int gc, int gf, LocalDate d,  List<Integer> jc, Map<Integer, Integer> sc,  List<Integer> jf, Map<Integer, Integer> sf){
+        equipaCasa = ec;
+        equipaFora = ef;
+        golosCasa = gc;
+        golosFora = gf;
+        date = d;
+        jogadoresCasa = new ArrayList<>(jc);
+        jogadoresFora = new ArrayList<>(jf);
+        substituicoesCasa = new HashMap<>(sc);
+        substitucoesFora = new HashMap<>(sf);
     }
 
-    public Jogo(String nome){
-        Nome = nome;
+    public static Jogo parse(String input){
+        String[] campos = input.split(",");
+        String[] data = campos[4].split("-");
+        List<Integer> jc = new ArrayList<>();
+        List<Integer> jf = new ArrayList<>();
+        Map<Integer, Integer> subsC = new HashMap<>();
+        Map<Integer, Integer> subsF = new HashMap<>();
+        for (int i = 5; i < 16; i++){
+            jc.add(Integer.parseInt(campos[i]));
+        }
+        for (int i = 16; i < 19; i++){
+            String[] sub = campos[i].split("->");
+            subsC.put(Integer.parseInt(sub[0]), Integer.parseInt(sub[1]));
+        }
+        for (int i = 19; i < 30; i++){
+            jf.add(Integer.parseInt(campos[i]));
+        }
+        for (int i = 30; i < 33; i++){
+            String[] sub = campos[i].split("->");
+            subsF.put(Integer.parseInt(sub[0]), Integer.parseInt(sub[1]));
+        }
+        return new Jogo(campos[0], campos[1], Integer.parseInt(campos[2]), Integer.parseInt(campos[3]),
+                LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])),
+                jc, subsC, jf, subsF);
     }
 
-
-
-    public String getNome() {
-        return this.Nome;
+    public String toString() {
+        return  "Jogo:" + equipaCasa + " - " + equipaFora;
+        //+ " -> " + substituicoesCasa.toString()
+        //+ " -> " + substitucoesFora.toString();
     }
-
-    public void setNome(String nome) {
-        this.Nome = nome;
-    }
-
-    public Map<Integer, Jogador> getPlayerDB() {
-        return PlayerDB;
-    }
-
-    public void setPlayerDB(Map<Integer, Jogador> playerDB) {
-        PlayerDB = playerDB;
-    }
-
-    public Map<Integer, Equipa> getTeamDB() {
-        return TeamDB;
-    }
-
-    public void setTeamDB(Map<Integer, Equipa> teamDB) {
-        TeamDB = teamDB;
-    }
-
-    /**
-     * Cria um novo Jogador adiciona á Base de dados do Estado de Jogo
-     * @param name Nome do Jogador
-     * @param pos  Posição (1-5)
-     * @param skill Valor Base do skill (0-20)
-     * @param teamName Equipa a que pertence
-     * @return  Id do Jogador criado
-     */
-    public int createPlayer(String name, int pos,int skill,Equipa teamName) {
-        int maxID = Collections.max(PlayerDB.keySet());
-        int pID = maxID +1;
-        if (pID != 0) {
-            teamName.addToTeam(pID);
-            Jogador player = new Jogador(pID,name,pos,skill);
-            PlayerDB.put(pID,player);
-            return pID;
-        } else throw new IllegalArgumentException("Erro: Jogo.createPlayer");
-    }
-
-    /**
-     * Cria uma equipa e adicona-a á Base de dados do Estado de Jogo
-     * @param name O nome da equipa a adicionar
-     * @return O Id da equipa criada
-     */
-    public int createTeam(String name){
-        int maxId = Collections.max(TeamDB.keySet());
-        int tID = maxId +1;
-        if (tID != 0){
-            Equipa team = new Equipa(tID,name);
-            TeamDB.put(tID,team);
-            return  tID;
-        }else throw new IllegalArgumentException("Erro: Jogo.createTeam");
-
-    }
-
 
 }
-
-

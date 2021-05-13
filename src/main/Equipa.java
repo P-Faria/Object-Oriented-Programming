@@ -1,5 +1,6 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Classe que gere tudo que define uma Equipa
@@ -10,25 +11,19 @@ import java.util.Map;
  */
 public class Equipa {
     private String nome;
-    private Map<Integer, Jogador> players;
+    private List<Jogador> jogadores;
 
-
-
-
-    public Equipa() {
-        this.nome = "Unidos da Moita";
-
-    }
 
     public Equipa(String nome) {
         this.nome = nome;
+        jogadores= new ArrayList<>();
 
 
     }
       public Equipa(Equipa team){
         nome = team.nome;
-        players= new HashMap<>();
-        players = (Map<Integer, Jogador>) team.players.clone(); //TODO:vai dar asneira
+        jogadores = new ArrayList<>();
+        jogadores = (List<Jogador>) team.jogadores.clone(); //TODO:vai dar asneira
     }
 
     public String getNome() {
@@ -41,17 +36,24 @@ public class Equipa {
 
 
     public void insereJogador(Jogador j){
-        if (!(players.containsValue(j))){
-                this.players.put(j.getNumeroJogador(),j);
+        if (!(jogadores.contains(j))){
+                this.jogadores.add(j);
                 j.setHistorico(this.nome);
             }else throw new IllegalArgumentException("Player already in team");
     }
 
     public void removePlayerTeam(Jogador j){
-        if (players.containsValue(j)){
-        players.remove(j);
+        if (jogadores.contains(j)){
+        jogadores.remove(j);
         }else throw new IllegalArgumentException("Player not in Team");
     }
 
+    public String toString(){
+        StringBuilder r = new StringBuilder("Equipa:" + nome + "\n");
+        for (Jogador j : jogadores){
+            r.append(j.toString());
+        }
+        return r.toString();
+    }
 
 }
