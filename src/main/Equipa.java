@@ -1,14 +1,5 @@
-/**
- *  Classe Equipa
- *  Classe que define os parametros de cada Equipa
- *
- *
- *
- * @author Pedro Faria
- * @since 0.2
- */
-
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Classe que gere tudo que define uma Equipa
@@ -18,55 +9,49 @@ import java.util.ArrayList;
  * @author a87952 - Tiago Rodrigues
  */
 public class Equipa {
-    private int TeamID;
-    private String Nome;
-    private ArrayList<Integer> Players; // Guarda o ID unico do Jogador
+    private String nome;
+    private Map<Integer, Jogador> players;
+
+
 
 
     public Equipa() {
-        this.TeamID = 0;
-        this.Nome = "Unidos da Moita";
-        this.Players = new ArrayList<>();
+        this.nome = "Unidos da Moita";
 
     }
 
-    public Equipa(int id, String nome) {
-        this.TeamID = id;
-        this.Nome = nome;
-        this.Players = new ArrayList<>();
+    public Equipa(String nome) {
+        this.nome = nome;
+
 
     }
-    public Equipa(int id, String nome, ArrayList<Integer> jogadores) {
-        this.TeamID = id;
-        this.Nome = nome;
-        this.Players = new ArrayList<>(jogadores);
-    }
-
-    public Equipa(Equipa team){
-        this.TeamID = team.TeamID;
-        this.Nome = team.Nome;
-        this.Players = team.Players;
+      public Equipa(Equipa team){
+        nome = team.nome;
+        players= new HashMap<>();
+        players = (Map<Integer, Jogador>) team.players.clone(); //TODO:vai dar asneira
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
 
 
-    public void addToTeam(int player){
-        if (!(Players.contains(player))){
-                this.Players.add(player);
+    public void insereJogador(Jogador j){
+        if (!(players.containsValue(j))){
+                this.players.put(j.getNumeroJogador(),j);
+                j.setHistorico(this.nome);
             }else throw new IllegalArgumentException("Player already in team");
     }
 
-    public void removePlayerTeam(int id){
-        if (Players.contains(id)){
-        Players.remove(id);
+    public void removePlayerTeam(Jogador j){
+        if (players.containsValue(j)){
+        players.remove(j);
         }else throw new IllegalArgumentException("Player not in Team");
     }
+
 
 }

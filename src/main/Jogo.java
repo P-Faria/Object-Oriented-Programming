@@ -11,21 +11,21 @@ import java.util.Map;
  */
 
 
-public class EstadoJogo {
+public class Jogo {
 
 
     private String Nome;
     private Map<Integer,Jogador> PlayerDB;
     private Map<Integer,Equipa> TeamDB;
 
-    public EstadoJogo(){
+    public Jogo(){
         Nome = "Default";
         PlayerDB = new HashMap<>();
         TeamDB = new HashMap<>();
 
     }
 
-    public EstadoJogo(String nome){
+    public Jogo(String nome){
         Nome = nome;
     }
 
@@ -71,7 +71,7 @@ public class EstadoJogo {
             Jogador player = new Jogador(pID,name,pos,skill);
             PlayerDB.put(pID,player);
             return pID;
-        } else throw new IllegalArgumentException("Erro: EstadoJogo.createPlayer");
+        } else throw new IllegalArgumentException("Erro: Jogo.createPlayer");
     }
 
     /**
@@ -86,7 +86,7 @@ public class EstadoJogo {
             Equipa team = new Equipa(tID,name);
             TeamDB.put(tID,team);
             return  tID;
-        }else throw new IllegalArgumentException("Erro: EstadoJogo.createTeam");
+        }else throw new IllegalArgumentException("Erro: Jogo.createTeam");
 
     }
 

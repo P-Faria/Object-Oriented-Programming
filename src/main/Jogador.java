@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *  Classe que define os parametros de cada jogador
@@ -12,137 +9,132 @@ import java.util.Map;
  */
 
 public class Jogador {
+    private String nomeJogador;
+    private int numeroJogador;
+    private int velocidade, resistencia, destreza, impulsao, cabeca, remate, passe;
+    private Set<String> historico;
 
-    private int uniqueID; //ID UNICO
-    private String NOME; // Nome
-    private Map<String,Integer> Skill;
-
-
-    private int POS; // Posição
-    public static final int undefined = 0;  // * 0. Não defenida
-    public static final int GR = 1;         // * 1. Guarda-Redes
-    public static final int Def = 2;        // * 2. Defesas
-    public static final int Med = 3;        // * 3. Médios
-    public static final int Ava = 4;        // * 4. Avançados
-    public static final int Lat = 5;        // * 5. Laterais
-
-    //TODO: Criar classes que estendam Jogador para cada posição
-
-    public Jogador(){
-        this.NOME ="John Cena" ; // nome Standard
-        this.POS = 0; // Posição Standard
-        this.uniqueID = 0;
-        this.setSkill();
+    public Jogador(String nomeJ, int numeroJ, int vel, int res, int des, int imp, int cab, int rem, int p){
+        nomeJogador = nomeJ;
+        numeroJogador = numeroJ;
+        velocidade = vel;
+        resistencia = res;
+        destreza = des;
+        impulsao = imp;
+        cabeca = cab;
+        remate = rem;
+        passe = p;
+        historico= new LinkedHashSet<>();
     }
 
-    public Jogador(int id, String nome, int pos,int skill){
-        this.uniqueID = id;
-        this.NOME = nome;
-        this.POS = pos;
-        this.setSkill(skill);
+    public Jogador(Jogador j) {
+        nomeJogador = j.getNomeJogador();
+        numeroJogador = j.getNumeroJogador();
+        velocidade = j.getVelocidade();
+        resistencia = j.getResistencia();
+        destreza = j.getDestreza();
+        impulsao = j.getImpulsao();
+        cabeca = j.getCabeca();
+        remate = j.getRemate();
+        passe = j.getPasse();
+        historico= new LinkedHashSet<>();
+        historico= (LinkedHashSet<String>)j.historico.clone();
     }
 
-    public Jogador(Jogador umJogador){
-        this.uniqueID = umJogador.uniqueID;
-        this.NOME = umJogador.NOME;
-        this.POS = umJogador.POS;
-        this.Skill = umJogador.Skill;
+    public String getNomeJogador() {
+        return nomeJogador;
     }
 
-    /**
-     * Método que devolve numero do ID do Jogador
-     *
-     * @return int com o numero de identificação
-     */
-    public int getID(){
-        return this.uniqueID;
+    public void setNomeJogador(String nomeJogador) {
+        this.nomeJogador = nomeJogador;
     }
 
-    public void setID(int ID) {
-        this.uniqueID = ID; // TODO: funçao que verifique se ID está livre
+    public int getNumeroJogador() {
+        return numeroJogador;
     }
 
-    /**
-     * Método que devolve o nome do Jogador
-     *
-     * @return String com o nome do Jogador
-     */
-    public String getNOME() {
-        return this.NOME;
+    public void setNumeroJogador(int numeroJogador) {
+        this.numeroJogador = numeroJogador;
     }
 
-
-    public void setNOME(String NOME) {
-        this.NOME = NOME;
+    public int getVelocidade() {
+        return velocidade;
     }
 
-    /**
-     * Método que devolve numero da posição do Jogador
-     *
-     * @return int com o numero da posição
-     */
-    public int getPOS() {
-        return this.POS;
+    public void setVelocidade(int velocidade) {
+        this.velocidade = velocidade;
     }
 
-    public void setPOS(int POS) {
-        this.POS = POS;
+    public int getResistencia() {
+        return resistencia;
     }
 
-    public void setSkill(){
-        this.Skill.put("Velocidade",10);
-        this.Skill.put("Resistência",10);
-        this.Skill.put("Destreza",10);
-        this.Skill.put("Impulsão",10);
-        this.Skill.put("Jogo de Cabeça",10);
-        this.Skill.put("Remate",10);
-        this.Skill.put("Capacidade de Passe",10);
-        this.Skill.put(skillPos(this.POS),10);
-
+    public void setResistencia(int resistencia) {
+        this.resistencia = resistencia;
     }
 
-    public void setSkill(String name,int skill){
-        skill = skill >= 20 ? 20 : Math.max(skill, 0); //assegura que esta dentro dos valores aceites
-        //e se inserem uma skill que não existe?
-        this.Skill.put(name,skill);
-
+    public int getDestreza() {
+        return destreza;
     }
 
-    public void setSkill(int skill) {
-        skill = skill >= 20 ? 20 : Math.max(skill, 0); //assegura que esta dentro dos valores aceites
-        this.Skill.put("Velocidade", skill);
-        this.Skill.put("Resistência", skill);
-        this.Skill.put("Destreza", skill);
-        this.Skill.put("Impulsão", skill);
-        this.Skill.put("Jogo de Cabeça", skill);
-        this.Skill.put("Remate", skill);
-        this.Skill.put("Capacidade de Passe", skill);
-        this.Skill.put(skillPos(this.POS),skill);
+    public void setDestreza(int destreza) {
+        this.destreza = destreza;
     }
 
-    private String skillPos(int POS){
-        if ( POS == undefined) throw new IllegalArgumentException("Erro: Jogador.skillPos - POS undefined");
-        if ( POS == GR) return "Elasticidade";
-        if ( POS == Def) return "Recuperação de Bola";
-        if ( POS == Med) return "Visão de Jogo";
-        if ( POS == Ava) return "Finalização";
-        if ( POS == Lat) return "Capacidade de Cruzamento";
-        else throw new IllegalArgumentException("Erro:Jogador.skillPos - POS not defined");
+    public int getImpulsao() {
+        return impulsao;
     }
 
-    public int getSkill(String skillName){
-        return this.Skill.get(skillName);
-
+    public void setImpulsao(int impulsao) {
+        this.impulsao = impulsao;
     }
 
-
-
-
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Jogador jogador = (Jogador) o;
-        return uniqueID == jogador.getID() && getPOS() == jogador.getPOS() && getNOME().equals(jogador.getNOME());
+    public int getCabeca() {
+        return cabeca;
     }
 
+    public void setCabeca(int cabeca) {
+        this.cabeca = cabeca;
+    }
+
+    public int getRemate() {
+        return remate;
+    }
+
+    public void setRemate(int remate) {
+        this.remate = remate;
+    }
+
+    public int getPasse() {
+        return passe;
+    }
+
+    public void setPasse(int passe) {
+        this.passe = passe;
+    }
+
+    public void setHistorico(String equipa){historico.add(equipa);}
+    public Set<String> getHistorico(){return historico;}
+
+    @Override
+    protected Jogador clone(){
+        return new Jogador(this);
+    }
+
+    public static Jogador parse(String input) {
+        String[] campos = input.split(",");
+
+        return new Jogador(campos[0], Integer.parseInt(campos[1]),
+                Integer.parseInt(campos[2]),
+                Integer.parseInt(campos[3]),
+                Integer.parseInt(campos[4]),
+                Integer.parseInt(campos[5]),
+                Integer.parseInt(campos[6]),
+                Integer.parseInt(campos[7]),
+                Integer.parseInt(campos[8]));
+    }
+
+    public String toString(){
+        return this.nomeJogador +"\n";
+    }
 }
