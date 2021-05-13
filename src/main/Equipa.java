@@ -22,8 +22,11 @@ public class Equipa {
     }
       public Equipa(Equipa team){
         nome = team.nome;
-        jogadores = new ArrayList<>();
-        jogadores = (List<Jogador>) team.jogadores.clone(); //TODO:vai dar asneira
+        jogadores = new ArrayList<>(team.jogadores);
+    }
+
+    public static Equipa parse(String s) {
+        return new Equipa(s);
     }
 
     public String getNome() {

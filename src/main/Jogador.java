@@ -37,8 +37,7 @@ public class Jogador {
         cabeca = j.getCabeca();
         remate = j.getRemate();
         passe = j.getPasse();
-        historico= new LinkedHashSet<>();
-        historico= (LinkedHashSet<String>)j.historico.clone();
+        historico= new LinkedHashSet<String>(j.historico);
     }
 
     public String getNomeJogador() {
