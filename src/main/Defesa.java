@@ -13,10 +13,7 @@ public class Defesa extends Jogador {
     public static Defesa parse(String input){
         String[] campos = input.split(",");
         if (campos.length<10){
-            int sum = IntStream.range(1, campos.length); //TODO: nao esta a funcionar
-            int count= (int) IntStream.range(1, campos.length).count();
-            int mean = sum/count;
-            int skill= ThreadLocalRandom.current().nextInt(mean-10,mean+10);
+            int skill=getSkillRandom(campos);
             return new Defesa(campos[0], Integer.parseInt(campos[1]),
                     Integer.parseInt(campos[2]),
                     Integer.parseInt(campos[3]),
@@ -38,5 +35,6 @@ public class Defesa extends Jogador {
                 Integer.parseInt(campos[8]),
                 Integer.parseInt(campos[9]));
     }
+
 
 }

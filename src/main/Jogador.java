@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *  Classe que define os parametros de cada jogador
@@ -136,4 +137,21 @@ public class Jogador {
     public String toString(){
         return this.nomeJogador +"\n";
     }
+
+    static int getSkillRandom(String[] campos) {
+        int sum=0;
+        for(int i=2;i< campos.length;i++){
+            sum += Integer.parseInt(campos[i]);            }
+        int count= campos.length-2;
+        int mean = sum/count;
+        int min = mean<=10 ? 0 : mean-10;    //Valores minimos
+        int max = mean >=90 ? 99 : mean+10;  // valores maximos
+        return ThreadLocalRandom.current().nextInt(min,max);
+    }
+
+    public int Rating(Jogador j){
+        return ((j.getCabeca()+j.getDestreza()+j.getImpulsao()+j.getRemate()
+                +j.getVelocidade()+j.getResistencia()+j.getPasse())/7);
+    }
+
 }
