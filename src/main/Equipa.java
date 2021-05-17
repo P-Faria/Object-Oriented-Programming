@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -51,12 +53,29 @@ public class Equipa {
         }else throw new IllegalArgumentException("Player not in Team");
     }
 
+    public List<Jogador> getJogadores() {
+        return jogadores;
+    }
+
+    public Jogador getJogadorByName(String name){
+        return this.jogadores.stream().filter(jogador -> name.equals(jogador.getNomeJogador())).findAny().orElse(null);
+    }
+
+    public void setJogadores(List<Jogador> jogadores) {
+        this.jogadores = jogadores;
+    }
+
     public String toString(){
         StringBuilder r = new StringBuilder("Equipa:" + nome + "\n");
         for (Jogador j : jogadores){
             r.append(j.toString());
         }
         return r.toString();
+    }
+
+    public  int RatingEquipa(){
+        int sum = this.jogadores.stream().mapToInt(Jogador::Rating).sum();
+        return (int) (sum / (long) this.jogadores.size());
     }
 
 }

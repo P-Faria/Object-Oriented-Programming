@@ -17,12 +17,12 @@ Medio:Joao Pedro Martins da Silva Freitas Cardoso,23,3,64,69,54,59,49,90,75
 Avancado:Raul Arieira Parente,28,64,54,87,21,83,82,72
 Lateral:Barbara Paulista de Faria,40,58,24,70,53,54,89,65,0
 Lateral:Diogo da Costa e Silva Lima Rebelo,15,57,66,70,96,60,74,68,22
-Defesa:Pedro Miguel Sampaio Faria,27,58,72,52,51,61,57,51
+Defesa:Pedro Miguel Sampaio Faria,24,100,100,100,100,100,100,100
 Avancado:Jose Pedro Pinto Teixeira da Cunha,32,89,63,59,66,60,50,25
 Equipa:Sporting Club Chopin
 Guarda-Redes:Goncalo Leal Da Mota Meireles Moreira,20,78,55,69,39,90,52,73,72
 Lateral:Diogo Camacho Barbosa,42,100,54,30,72,73,75,75,68
-Defesa:Joao Pedro Espilma Goulart,8,29,74,36,62,66,78,52
+Defesa:Joao Pedro Espilma Goulart,10,100,100,100,100,100,100,100
 Defesa:Joao Manuel Novais da Silva,44,51,77,59,60,10,65,60
 Lateral:Catarina Martins Sa Quintas,16,84,52,66,50,69,86,62,31
 Medio:Leonardo Barbosa Maia,25,51,32,75,55,53,64,82,60
@@ -210,7 +210,7 @@ Medio:Rui Filipe Coelho Moreira,0,92,31,88,75,65,66,67,36
 Avancado:Maria Sofia da Rocha Gomes,1,55,68,56,92,27,69,89
 Equipa:Beethoven F. C.
 Guarda-Redes:Mario Rui Freitas Coelho,39,51,83,33,75,35,70,48,89
-Lateral:Tiago Miguel Martins Rodrigues,38,52,39,71,74,58,51,29,21
+Lateral:Tiago Miguel Martins Rodrigues,38,1,1,1,1,1,1,1,1
 Defesa:Jose Pedro Martins Magalhaes,5,32,48,70,2,73,59,74
 Defesa:Ricardo Andre Silva Pereira,50,78,77,19,97,54,61,94
 Lateral:Francisco Alexandre Pinto Neves,3,85,24,27,73,70,51,90,92

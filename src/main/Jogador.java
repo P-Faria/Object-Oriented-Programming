@@ -15,7 +15,7 @@ public class Jogador {
     private int velocidade, resistencia, destreza, impulsao, cabeca, remate, passe;
     private Set<String> historico;
 
-    public Jogador(String nomeJ, int numeroJ, int vel, int res, int des, int imp, int cab, int rem, int p){
+    public Jogador(String nomeJ, int numeroJ, int vel, int res, int des, int imp, int cab, int rem, int p) {
         nomeJogador = nomeJ;
         numeroJogador = numeroJ;
         velocidade = vel;
@@ -25,7 +25,7 @@ public class Jogador {
         cabeca = cab;
         remate = rem;
         passe = p;
-        historico= new LinkedHashSet<>();
+        historico = new LinkedHashSet<>();
     }
 
     public Jogador(Jogador j) {
@@ -38,7 +38,7 @@ public class Jogador {
         cabeca = j.getCabeca();
         remate = j.getRemate();
         passe = j.getPasse();
-        historico= new LinkedHashSet<String>(j.historico);
+        historico = new LinkedHashSet<String>(j.historico);
     }
 
     public String getNomeJogador() {
@@ -113,11 +113,16 @@ public class Jogador {
         this.passe = passe;
     }
 
-    public void setHistorico(String equipa){historico.add(equipa);}
-    public Set<String> getHistorico(){return historico;}
+    public void setHistorico(String equipa) {
+        historico.add(equipa);
+    }
+
+    public Set<String> getHistorico() {
+        return historico;
+    }
 
     @Override
-    protected Jogador clone(){
+    protected Jogador clone() {
         return new Jogador(this);
     }
 
@@ -134,24 +139,36 @@ public class Jogador {
                 Integer.parseInt(campos[8]));
     }
 
-    public String toString(){
-        return this.nomeJogador +"\n";
+    public String toString() {
+        return this.nomeJogador + "\n";
     }
 
     static int getSkillRandom(String[] campos) {
-        int sum=0;
-        for(int i=2;i< campos.length;i++){
-            sum += Integer.parseInt(campos[i]);            }
-        int count= campos.length-2;
-        int mean = sum/count;
-        int min = mean<=10 ? 0 : mean-10;    //Valores minimos
-        int max = mean >=90 ? 99 : mean+10;  // valores maximos
-        return ThreadLocalRandom.current().nextInt(min,max);
+        int sum = 0;
+        for (int i = 2; i < campos.length; i++) {
+            sum += Integer.parseInt(campos[i]);
+        }
+        int count = campos.length - 2;
+        int mean = sum / count;
+        int min = mean <= 10 ? 0 : mean - 10;    //Valores minimos
+        int max = mean >= 90 ? 99 : mean + 10;  // valores maximos
+        return ThreadLocalRandom.current().nextInt(min, max);
     }
 
-    public int Rating(Jogador j){
-        return ((j.getCabeca()+j.getDestreza()+j.getImpulsao()+j.getRemate()
-                +j.getVelocidade()+j.getResistencia()+j.getPasse())/7);
+    public int Rating(Jogador j) {
+        return ((j.getCabeca() + j.getDestreza() + j.getImpulsao() + j.getRemate()
+                + j.getVelocidade() + j.getResistencia() + j.getPasse()) / 7);
     }
 
+    public int Rating() {
+        return ((cabeca + destreza + impulsao + remate
+                + velocidade + resistencia + passe) / 7);
+    }
+
+    public int RatingBase() {
+        return ((cabeca + destreza + impulsao + remate
+                + velocidade + resistencia + passe) / 7);
+
+
+    }
 }

@@ -44,4 +44,27 @@ public class Estado {
     public void setJogos(List<Jogo> jogos) {
         this.jogos = jogos;
     }
+
+    public void debug(){
+        for (Equipa Ee: this.equipas.values()){
+            System.out.println(Ee.toString());
+        }
+        for (Jogo jog: this.jogos){
+            System.out.println(jog.toString());
+        }
+    }
+
+    /**
+     * Metodo que transfere 1 jogador de uma equipa para outra
+     *
+     * @param j  Jogador a ser transferido
+     * @param e1 Equipa Source
+     * @param e2 Equipa Destino
+     */
+    public void transferencia(Jogador j,Equipa e1,Equipa e2){
+        e1.removePlayerTeam(j);
+        e2.insereJogador(j);
+
+
+    }
 }
