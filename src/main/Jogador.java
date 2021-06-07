@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -9,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author a87952 - Tiago Rodrigues
  */
 
-public class Jogador {
+public class Jogador implements Serializable {
     private String nomeJogador;
     private int numeroJogador;
     private int velocidade, resistencia, destreza, impulsao, cabeca, remate, passe;

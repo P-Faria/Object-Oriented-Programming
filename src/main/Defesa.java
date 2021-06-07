@@ -1,10 +1,8 @@
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
 
 public class Defesa extends Jogador {
     private int carrinhos;
+
+
     public Defesa(String nomeJ, int numeroJ, int vel, int res, int des, int imp, int cab, int rem, int p,int carr) {
         super(nomeJ, numeroJ, vel, res, des, imp, cab, rem, p);
         carrinhos=carr;

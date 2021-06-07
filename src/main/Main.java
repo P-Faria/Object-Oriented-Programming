@@ -8,6 +8,9 @@ public class Main
         status.equipas.get("Mahler Athletic").removePlayerTeam(j);
         status.equipas.get("Sporting Club Chopin").insereJogador(j);
         System.out.println(j.getHistorico().toString());
+        System.out.println(status.equipas.get("Mahler Athletic").RatingEquipa());
+
+
 
 
     }

@@ -1,10 +1,10 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class Estado {
+public class Estado implements Serializable {
     Map<String, Equipa> equipas = new HashMap<>(); //nome, equipa
     Map<Integer, Jogador> jogadores = new HashMap<>(); //numero, jogador
     List<Jogo> jogos;
@@ -65,6 +65,24 @@ public class Estado {
         e1.removePlayerTeam(j);
         e2.insereJogador(j);
 
+    }
 
+    // Save in object file
+    public static void save(Estado state, String fileName) throws IOException {
+        FileOutputStream fos = new FileOutputStream(fileName);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(state);
+        oos.close();
+        fos.close();
+    }
+
+    // Load from object file
+    public static Estado load(String fileName) throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(fileName);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Estado loaded = (Estado) ois.readObject();
+        ois.close();
+        fis.close();
+        return loaded;
     }
 }
