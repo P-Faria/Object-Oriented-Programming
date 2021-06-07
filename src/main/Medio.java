@@ -5,6 +5,11 @@ public class Medio extends Jogador {
         recuperacao = rec;
     }
 
+    public Medio(Medio medio) {
+        super(medio);
+        recuperacao=medio.getRecuperacao();
+    }
+
     public int getRecuperacao() {
         return recuperacao;
     }
@@ -46,11 +51,16 @@ public class Medio extends Jogador {
 
         return (int) doub;
     }
-
+    @Override
     public int Rating(){
         double doub= (((getCabeca()*0.75)+(getDestreza()*1)+(getImpulsao()*0.5)+(getRemate()*0.25)
                 +(getVelocidade()*0.50)+(getResistencia()*1.25)+(getPasse()*1.25)+(getRecuperacao()*1.50))/8);
 
         return (int) doub;
+    }
+
+    @Override
+    public Medio clone() {
+        return new Medio(this);
     }
 }

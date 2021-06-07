@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author a87952 - Tiago Rodrigues
  */
 
-public class Jogador implements Serializable {
+public abstract class  Jogador implements Serializable {
     private String nomeJogador;
     private int numeroJogador;
     private int velocidade, resistencia, destreza, impulsao, cabeca, remate, passe;
@@ -50,7 +50,7 @@ public class Jogador implements Serializable {
         this.nomeJogador = nomeJogador;
     }
 
-    public int getNumeroJogador() {
+    public Integer getNumeroJogador() {
         return numeroJogador;
     }
 
@@ -122,24 +122,6 @@ public class Jogador implements Serializable {
         return historico;
     }
 
-    @Override
-    protected Jogador clone() {
-        return new Jogador(this);
-    }
-
-    public static Jogador parse(String input) {
-        String[] campos = input.split(",");
-
-        return new Jogador(campos[0], Integer.parseInt(campos[1]),
-                Integer.parseInt(campos[2]),
-                Integer.parseInt(campos[3]),
-                Integer.parseInt(campos[4]),
-                Integer.parseInt(campos[5]),
-                Integer.parseInt(campos[6]),
-                Integer.parseInt(campos[7]),
-                Integer.parseInt(campos[8]));
-    }
-
     public String toString() {
         return this.nomeJogador + "\n";
     }
@@ -156,15 +138,7 @@ public class Jogador implements Serializable {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
-    public int Rating(Jogador j) {
-        return ((j.getCabeca() + j.getDestreza() + j.getImpulsao() + j.getRemate()
-                + j.getVelocidade() + j.getResistencia() + j.getPasse()) / 7);
-    }
-
-    public int Rating() {
-        return ((cabeca + destreza + impulsao + remate
-                + velocidade + resistencia + passe) / 7);
-    }
+    abstract public int Rating();
 
     public int RatingBase() {
         return ((cabeca + destreza + impulsao + remate
@@ -172,4 +146,6 @@ public class Jogador implements Serializable {
 
 
     }
+
+    abstract public Jogador clone();
 }

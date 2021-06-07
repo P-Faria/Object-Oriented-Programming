@@ -8,6 +8,11 @@ public class Defesa extends Jogador {
         carrinhos=carr;
     }
 
+    public Defesa(Defesa defesa) {
+        super(defesa);
+        carrinhos=defesa.getCarrinhos();
+    }
+
     public static Defesa parse(String input){
         String[] campos = input.split(",");
         if (campos.length<10){
@@ -54,6 +59,11 @@ public class Defesa extends Jogador {
                 +(getVelocidade()*0.25)+(getResistencia()*1.25)+(getPasse()*1.50)+(getCarrinhos()*1.50))/8);
 
         return (int) doub;
+    }
+
+    @Override
+    public Defesa clone() {
+        return new Defesa(this);
     }
 
 }

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +54,17 @@ public class Estado implements Serializable {
             System.out.println(jog.toString());
         }
     }
+    /**
+    public Jogo Jogar (String ec,String ef, LocalDate d, List<Integer> jc,Map<Integer, Integer> sc, List<Integer> jf, Map<Integer, Integer> sf){
+        //TODO: criar este metodo, mas que nao receba uma data.
+
+        Equipa casa = this.equipas.get(ec);
+        Equipa fora = this.equipas.get(ef);
+
+
+        return Jogo(ec,ef,gc,gf,d,jc,sc,jf,sf);
+    }
+     */
 
     /**
      * Metodo que transfere 1 jogador de uma equipa para outra
@@ -85,4 +97,6 @@ public class Estado implements Serializable {
         fis.close();
         return loaded;
     }
+
+
 }

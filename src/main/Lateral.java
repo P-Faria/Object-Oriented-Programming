@@ -7,6 +7,19 @@ public class Lateral extends Jogador{
         cruzamento = cruz;
     }
 
+    public Lateral(Lateral lateral) {
+        super(lateral);
+        cruzamento=lateral.cruzamento;
+    }
+
+    public int getCruzamento() {
+        return cruzamento;
+    }
+
+    public void setCruzamento(int cruzamento) {
+        this.cruzamento = cruzamento;
+    }
+
     public static Lateral parse(String input){
         String[] campos = input.split(",");
         int sum=0;
@@ -31,5 +44,24 @@ public class Lateral extends Jogador{
                 Integer.parseInt(campos[7]),
                 Integer.parseInt(campos[8]),
                 Integer.parseInt(campos[9]));
+    }
+    //TODO: VER OS VALORES DESTES RATINGS
+    public int Rating(Lateral j){
+        double doub= (((j.getCabeca()*0.75)+(j.getDestreza()*1)+(j.getImpulsao()*0.5)+(j.getRemate()*0.25)
+                +(j.getVelocidade()*0.50)+(j.getResistencia()*1.25)+(j.getPasse()*1.25)+(j.getCruzamento()*1.50)/8));
+
+        return (int) doub;
+    }
+    @Override
+    public int Rating(){
+        double doub= (((getCabeca()*0.75)+(getDestreza()*1)+(getImpulsao()*0.5)+(getRemate()*0.25)
+                +(getVelocidade()*0.50)+(getResistencia()*1.25)+(getPasse()*1.25)+(getCruzamento()*1.50))/8);
+
+        return (int) doub;
+    }
+
+    @Override
+    public Lateral clone() {
+        return new Lateral(this);
     }
 }

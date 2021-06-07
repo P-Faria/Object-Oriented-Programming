@@ -8,6 +8,11 @@ public class GuardaRedes extends Jogador{
         elasticidade = elast;
     }
 
+    public GuardaRedes(GuardaRedes redes) {
+        super(redes);
+        elasticidade= redes.getElasticidade();
+    }
+
     public int getElasticidade() {
         return elasticidade;
     }
@@ -41,5 +46,9 @@ public class GuardaRedes extends Jogador{
                 +(getVelocidade()*0.75)+(getResistencia()*0.75)+(getPasse()*1)+(getElasticidade()*1.75))/8);
 
         return (int) doub;
+    }
+
+    public GuardaRedes clone(){
+        return new GuardaRedes(this);
     }
 }

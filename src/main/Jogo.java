@@ -1,10 +1,11 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Jogo {
+public class Jogo implements Serializable {
     private String equipaCasa;
     private String equipaFora;
     private int golosCasa;
@@ -12,8 +13,8 @@ public class Jogo {
     private LocalDate date;
     private List<Integer> jogadoresCasa;
     private List<Integer> jogadoresFora;
-    Map<Integer, Integer> substituicoesCasa = new HashMap<>();
-    Map<Integer, Integer> substitucoesFora = new HashMap<>();
+    Map<Integer, Integer> substituicoesCasa;
+    Map<Integer, Integer> substitucoesFora;
 
     public Jogo (String ec, String ef, int gc, int gf, LocalDate d,  List<Integer> jc, Map<Integer, Integer> sc,  List<Integer> jf, Map<Integer, Integer> sf){
         equipaCasa = ec;
@@ -53,10 +54,91 @@ public class Jogo {
                 jc, subsC, jf, subsF);
     }
 
-    public String toString() {
-        return  "Jogo:" + equipaCasa + " - " + equipaFora;
-        //+ " -> " + substituicoesCasa.toString()
-        //+ " -> " + substitucoesFora.toString();
+    public String getEquipaCasa() {
+        return equipaCasa;
     }
+
+    public void setEquipaCasa(String equipaCasa) {
+        this.equipaCasa = equipaCasa;
+    }
+
+    public String getEquipaFora() {
+        return equipaFora;
+    }
+
+    public void setEquipaFora(String equipaFora) {
+        this.equipaFora = equipaFora;
+    }
+
+    public int getGolosCasa() {
+        return golosCasa;
+    }
+
+    public void setGolosCasa(int golosCasa) {
+        this.golosCasa = golosCasa;
+    }
+
+    public int getGolosFora() {
+        return golosFora;
+    }
+
+    public void setGolosFora(int golosFora) {
+        this.golosFora = golosFora;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public List<Integer> getJogadoresCasa() {
+        return jogadoresCasa;
+    }
+
+    public void setJogadoresCasa(List<Integer> jogadoresCasa) {
+        this.jogadoresCasa = jogadoresCasa;
+    }
+
+    public List<Integer> getJogadoresFora() {
+        return jogadoresFora;
+    }
+
+    public void setJogadoresFora(List<Integer> jogadoresFora) {
+        this.jogadoresFora = jogadoresFora;
+    }
+
+    public Map<Integer, Integer> getSubstituicoesCasa() {
+        return substituicoesCasa;
+    }
+
+    public void setSubstituicoesCasa(Map<Integer, Integer> substituicoesCasa) {
+        this.substituicoesCasa = substituicoesCasa;
+    }
+
+    public Map<Integer, Integer> getSubstitucoesFora() {
+        return substitucoesFora;
+    }
+
+    public void setSubstitucoesFora(Map<Integer, Integer> substitucoesFora) {
+        this.substitucoesFora = substitucoesFora;
+    }
+
+    public String toString() {
+        return  "Jogo:" + equipaCasa + " - " + equipaFora
+        + " Subs Casa -> " + substituicoesCasa.toString()
+        + " Subs Fora -> " + substitucoesFora.toString();
+    }
+
+    public void resultado(){
+
+
+
+    }
+
+
+
 
 }

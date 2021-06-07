@@ -1,7 +1,6 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -11,7 +10,7 @@ import java.util.List;
  * @author a72640 - Pedro Faria
  * @author a87952 - Tiago Rodrigues
  */
-public class Equipa {
+public class Equipa implements Serializable {
     private String nome;
     private List<Jogador> jogadores;
 
@@ -76,6 +75,17 @@ public class Equipa {
     public  int RatingEquipa(){
         int sum = this.jogadores.stream().mapToInt(Jogador::Rating).sum();
         return (int) (sum / (long) this.jogadores.size());
+    }
+
+    public int ratingJogadores(List<Integer> players){
+
+
+            List<Jogador> res = jogadores.stream(). //vai a lista de jogadores da equipa
+                    filter(pl -> players.stream().  //filtra todos os resultados da lista dada
+                    anyMatch(it->it.equals(pl.getNumeroJogador()))) // em que os valores numeroJogador e o valor dado seja igual
+                    .collect(Collectors.toList());      //devolve a lista de todos os jogadores que obedecem á condição
+            return (int) (res.stream().mapToInt(Jogador::Rating).sum() / 11);
+
     }
 
 }

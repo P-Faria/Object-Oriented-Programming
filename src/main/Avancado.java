@@ -5,6 +5,11 @@ public class Avancado extends Jogador {
         finalizacao= fin;
     }
 
+    public Avancado(Avancado avancado) {
+        super(avancado);
+        finalizacao=avancado.getFinalizacao();
+    }
+
     public static Avancado parse(String input){
         String[] campos = input.split(",");
         int sum=0;
@@ -51,5 +56,10 @@ public class Avancado extends Jogador {
                 +(getVelocidade()*0.50)+(getResistencia()*0.75)+(getPasse()*0.25)+(getFinalizacao()*1.50))/8);
 
         return (int) doub;
+    }
+
+    @Override
+    public Avancado clone() {
+        return new Avancado(this);
     }
 }
