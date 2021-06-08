@@ -25,6 +25,8 @@ public class Main
         String nome = status.jogos.get(2).getEquipaCasa();
         int rat = status.equipas.get(nome).ratingJogadores(gamers);
 
+        Jogo teste = status.Jogar(status.jogos.get(2));
+
 
 
     }

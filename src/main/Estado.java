@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Estado implements Serializable {
     Map<String, Equipa> equipas = new HashMap<>(); //nome, equipa
@@ -54,17 +55,55 @@ public class Estado implements Serializable {
             System.out.println(jog.toString());
         }
     }
-    /**
+
     public Jogo Jogar (String ec,String ef, LocalDate d, List<Integer> jc,Map<Integer, Integer> sc, List<Integer> jf, Map<Integer, Integer> sf){
         //TODO: criar este metodo, mas que nao receba uma data.
-
+        int rCasa,rFora,rCasaSub,rForaSub;
         Equipa casa = this.equipas.get(ec);
         Equipa fora = this.equipas.get(ef);
+        rCasa = casa.ratingJogadores(jc);
+        rFora = fora.ratingJogadores(jf);
+        substitui(jc,sc);
+        substitui(jf,sf);
+        rCasaSub = casa.ratingJogadores(jc);
+        rForaSub = fora.ratingJogadores(jf);
 
 
-        return Jogo(ec,ef,gc,gf,d,jc,sc,jf,sf);
+        return new Jogo(ec,ef,0,0,d,jc,sc,jf,sf);
     }
-     */
+
+    public Jogo Jogar (Jogo game){
+        //TODO: criar este metodo, mas que nao receba uma data. tornar esta funcao num void
+        int rCasa,rFora,rCasaSub,rForaSub;
+
+        Equipa casa = this.equipas.get(game.getEquipaCasa());
+        Equipa fora = this.equipas.get(game.getEquipaFora());
+
+        rCasa = casa.ratingJogadores(game.getJogadoresCasa());
+        rFora = fora.ratingJogadores(game.getJogadoresFora());
+
+        List<Integer> casaSubed = substitui(game.getJogadoresCasa(),game.getSubstituicoesCasa());
+        List<Integer> foraSubed = substitui(game.getJogadoresFora(),game.getSubstitucoesFora());
+
+        rCasaSub = casa.ratingJogadores(casaSubed);
+        rForaSub = fora.ratingJogadores(foraSubed);
+
+
+        return game;
+    }
+
+
+
+
+
+    public List<Integer> substitui(List<Integer> jc,Map<Integer, Integer> sc) {
+        List<Integer> res = new ArrayList<>();
+        for (Integer key : sc.keySet()) {
+            jc.set(jc.indexOf(key),sc.get(key));
+        }
+        return jc;
+    }
+
 
     /**
      * Metodo que transfere 1 jogador de uma equipa para outra

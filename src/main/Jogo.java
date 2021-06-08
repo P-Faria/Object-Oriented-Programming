@@ -132,11 +132,7 @@ public class Jogo implements Serializable {
         + " Subs Fora -> " + substitucoesFora.toString();
     }
 
-    public void resultado(){
 
-
-
-    }
 
 
 
