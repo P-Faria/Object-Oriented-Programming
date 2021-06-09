@@ -92,7 +92,7 @@ public class Estado implements Serializable {
         int dif = rCasaTotal - rForaTotal;
         int numGolos = (int)(Math.random()*6+1); //1d6
 
-        while(numGolos>0 && (dif>0)){
+        while(numGolos>0 && (dif>0)){ //vantagem casa
             if (roll(dif)) gc++;
             else gf++;
             numGolos--;
@@ -105,13 +105,13 @@ public class Estado implements Serializable {
             numGolos--;
         }
 
-        while(numGolos>0 && (dif<0)){
+        while(numGolos>0 && (dif<0)){ // vantagem visitante
             if (roll(Math.abs(dif))) gf++;
             else gc++;
             numGolos--;
         }
 
-        return new Jogo(ec,ef,0,0,d,jc,sc,jf,sf);
+        return new Jogo(ec,ef,gc,gf,d,jc,sc,jf,sf);
     }
 
     /**
@@ -206,7 +206,7 @@ public class Estado implements Serializable {
      * Metodo que transfere 1 jogador de uma equipa para outra
      *
      * @param j  Jogador a ser transferido
-     * @param e1 Equipa Source
+     * @param e1 Equipa Origem
      * @param e2 Equipa Destino
      */
     public void transferencia(Jogador j,Equipa e1,Equipa e2){
@@ -214,6 +214,8 @@ public class Estado implements Serializable {
         e2.insereJogador(j);
 
     }
+
+
 
     // Save in object file
     public static void save(Estado state, String fileName) throws IOException {

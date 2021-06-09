@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,11 +76,12 @@ public class Parser {
 
     }
 
-    public static void parse(Estado e) throws LinhaIncorretaException {
-        List<String> linhas = lerFicheiro("D:\\Cloud\\OneUminho\\OneDrive - Universidade do Minho\\20-21\\2\\POO\\Projeto\\src\\bin\\logs.txt");
+    public static void parse(Estado e,String nomeFich) throws LinhaIncorretaException {
+        List<String> linhas = lerFicheiro(nomeFich);
         Map<String, Equipa> equipas = new HashMap<>(); //nome, equipa
         Map<Integer, Jogador> jogadores = new HashMap<>(); //numero, jogador
         List<Jogo> jogos = new ArrayList<>();
+        int id =0;
         Equipa ultima = null; Jogador j = null;
         String[] linhaPartida;
         for (String linha : linhas) {
@@ -93,7 +95,7 @@ public class Parser {
                     break;
                 case "Guarda-Redes":
                     j = GuardaRedes.parse(linhaPartida[1]);
-                    jogadores.put(j.getNumeroJogador(), j);
+                    jogadores.put(id++, j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
 
@@ -102,7 +104,7 @@ public class Parser {
                     break;
                 case "Defesa":
                     j = Defesa.parse(linhaPartida[1]);
-                    jogadores.put(j.getNumeroJogador(), j);
+                    jogadores.put(id++, j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
@@ -110,7 +112,7 @@ public class Parser {
                     break;
                 case "Medio":
                     j = Medio.parse(linhaPartida[1]);
-                    jogadores.put(j.getNumeroJogador(), j);
+                    jogadores.put(id++, j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
@@ -118,7 +120,7 @@ public class Parser {
                     break;
                 case "Lateral":
                     j = Lateral.parse(linhaPartida[1]);
-                    jogadores.put(j.getNumeroJogador(), j);
+                    jogadores.put(id++, j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
@@ -126,7 +128,7 @@ public class Parser {
                     break;
                 case "Avancado":
                     j = Avancado.parse(linhaPartida[1]);
-                    jogadores.put(j.getNumeroJogador(), j);
+                    jogadores.put(id++, j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
@@ -155,9 +157,14 @@ public class Parser {
 
     }
     public static List<String> lerFicheiro(String nomeFich) {
-        List<String> lines;
-        try { lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8); }
-        catch(IOException exc) { lines = new ArrayList<>(); }
+        List<String> lines=null;
+        try {
+            lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8);
+        } catch(IOException exc) {
+            lines = new ArrayList<>();
+        } catch (InvalidPathException invP){
+            System.out.println("ERRO: Nome Ficheiro inexistente");
+        }
         return lines;
     }
 
