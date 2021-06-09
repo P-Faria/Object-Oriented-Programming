@@ -27,3 +27,8 @@ hs_err_pid*
 /out/
 /given/
 /src/bin/save.OBJ
+
+docs/*
+
+!/docs/*.pdf
+!/docs/*.txt
