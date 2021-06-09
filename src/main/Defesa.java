@@ -48,15 +48,15 @@ public class Defesa extends Jogador {
     }
 
     public int Rating(Defesa j){
-        double doub= (((j.getCabeca()*0.75)+(j.getDestreza()*1)+(j.getImpulsao()*0.5)+(j.getRemate()*0.25)
-                +(j.getVelocidade()*0.25)+(j.getResistencia()*1.25)+(j.getPasse()*1.50)+(j.getCarrinhos()*1.50)/8));
+        double doub= (((getCabeca()*1)+(getDestreza()*1)+(getImpulsao()*0.75)+(getRemate()*0.25)
+                +(getVelocidade()*0.25)+(getResistencia()*1.25)+(getPasse()*1.75)+(getCarrinhos()*1.75))/8);
 
         return (int) doub;
     }
 
     public int Rating(){
-        double doub= (((getCabeca()*0.75)+(getDestreza()*1)+(getImpulsao()*0.5)+(getRemate()*0.25)
-                +(getVelocidade()*0.25)+(getResistencia()*1.25)+(getPasse()*1.50)+(getCarrinhos()*1.50))/8);
+        double doub= (((getCabeca()*1)+(getDestreza()*1)+(getImpulsao()*0.75)+(getRemate()*0.25)
+                +(getVelocidade()*0.25)+(getResistencia()*1.25)+(getPasse()*1.75)+(getCarrinhos()*1.75))/8);
 
         return (int) doub;
     }

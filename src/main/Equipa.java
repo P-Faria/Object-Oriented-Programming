@@ -69,6 +69,8 @@ public class Equipa implements Serializable {
         for (Jogador j : jogadores){
             r.append(j.toString());
         }
+        r.append("Rating de Equipa: ").append(this.RatingEquipa()).append("\n");
+
         return r.toString();
     }
 
@@ -84,6 +86,10 @@ public class Equipa implements Serializable {
                     filter(pl -> players.stream().  //filtra todos os resultados da lista dada
                     anyMatch(it->it.equals(pl.getNumeroJogador()))) // em que os valores numeroJogador e o valor dado seja igual
                     .collect(Collectors.toList());      //devolve a lista de todos os jogadores que obedecem á condição
+        //debug
+        for (Jogador j: res){
+            System.out.println(j.getNomeJogador() + j.Rating());
+        }
             return (int) (res.stream().mapToInt(Jogador::Rating).sum() / 11);
 
     }

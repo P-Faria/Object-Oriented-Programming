@@ -45,17 +45,17 @@ public class Lateral extends Jogador{
                 Integer.parseInt(campos[8]),
                 Integer.parseInt(campos[9]));
     }
-    //TODO: VER OS VALORES DESTES RATINGS
+
     public int Rating(Lateral j){
-        double doub= (((j.getCabeca()*0.75)+(j.getDestreza()*1)+(j.getImpulsao()*0.5)+(j.getRemate()*0.25)
-                +(j.getVelocidade()*0.50)+(j.getResistencia()*1.25)+(j.getPasse()*1.25)+(j.getCruzamento()*1.50)/8));
+        double doub= (((getCabeca()*0.25)+(getDestreza()*1)+(getImpulsao()*0.5)+(getRemate()*0.25)
+                +(getVelocidade()*1)+(getResistencia()*1.25)+(getPasse()*1.25)+(getCruzamento()*1.50))/8);
 
         return (int) doub;
     }
     @Override
     public int Rating(){
-        double doub= (((getCabeca()*0.75)+(getDestreza()*1)+(getImpulsao()*0.5)+(getRemate()*0.25)
-                +(getVelocidade()*0.50)+(getResistencia()*1.25)+(getPasse()*1.25)+(getCruzamento()*1.50))/8);
+        double doub= (((getCabeca()*0.25)+(getDestreza()*1)+(getImpulsao()*0.5)+(getRemate()*0.25)
+                +(getVelocidade()*1)+(getResistencia()*1.25)+(getPasse()*1.25)+(getCruzamento()*1.50))/8);
 
         return (int) doub;
     }
