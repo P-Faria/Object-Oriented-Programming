@@ -17,7 +17,7 @@ public class Equipa implements Serializable {
 
     public Equipa(String nome) {
         this.nome = nome;
-        jogadores= new ArrayList<>();
+        this.jogadores= new ArrayList<>();
 
 
     }
@@ -66,11 +66,12 @@ public class Equipa implements Serializable {
 
     public String toString(){
         StringBuilder r = new StringBuilder("Equipa:" + nome + "\n");
-        for (Jogador j : jogadores){
-            r.append(j.toString());
+        if (this.jogadores!=null) {
+            for (Jogador j : jogadores) {
+                r.append(j.toString());
+            }
+            r.append("Rating de Equipa: ").append(this.RatingEquipa()).append("\n");
         }
-        r.append("Rating de Equipa: ").append(this.RatingEquipa()).append("\n");
-
         return r.toString();
     }
 

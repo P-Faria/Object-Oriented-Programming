@@ -218,10 +218,10 @@ public class Estado implements Serializable {
 
 
     // Save in object file
-    public static void save(Estado state, String fileName) throws IOException {
+    public void save(String fileName) throws IOException {
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(state);
+        oos.writeObject(this);
         oos.close();
         fos.close();
     }

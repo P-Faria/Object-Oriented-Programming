@@ -3,8 +3,8 @@ public class GuardaRedes extends Jogador{
 
 
 
-    public GuardaRedes (String nomeJ, int numeroJ, int vel, int res, int des, int imp, int cab, int rem, int p, int elast) {
-        super(nomeJ, numeroJ, vel, res, des, imp, cab, rem, p);
+    public GuardaRedes (String nomeJ, int numeroJ, int vel, int res, int des, int imp, int cab, int rem, int pas, int elast) {
+        super(nomeJ, numeroJ, vel, res, des, imp, cab, rem, pas);
         elasticidade = elast;
     }
 

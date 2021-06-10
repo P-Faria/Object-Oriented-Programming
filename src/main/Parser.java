@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Parser {
-
+/*
     public static void parse() throws LinhaIncorretaException {
         List<String> linhas = lerFicheiro("D:\\Cloud\\OneUminho\\OneDrive - Universidade do Minho\\20-21\\2\\POO\\Projeto\\src\\bin\\logs.txt");
         Map<String, Equipa> equipas = new HashMap<>(); //nome, equipa
@@ -75,9 +75,15 @@ public class Parser {
 
 
     }
-
+*/
     public static void parse(Estado e,String nomeFich) throws LinhaIncorretaException {
-        List<String> linhas = lerFicheiro(nomeFich);
+        List<String> linhas = new ArrayList<>();
+        try {
+            linhas = lerFicheiro(nomeFich);
+        }catch (Exception excep){
+            System.out.println("Nome Ficheiro errado!");
+            System.exit(1);
+        }
         Map<String, Equipa> equipas = new HashMap<>(); //nome, equipa
         Map<Integer, Jogador> jogadores = new HashMap<>(); //numero, jogador
         List<Jogo> jogos = new ArrayList<>();
@@ -156,14 +162,12 @@ public class Parser {
         }
 
     }
-    public static List<String> lerFicheiro(String nomeFich) {
+    public static List<String> lerFicheiro(String nomeFich) throws IOException {
         List<String> lines=null;
         try {
             lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8);
         } catch(IOException exc) {
-            lines = new ArrayList<>();
-        } catch (InvalidPathException invP){
-            System.out.println("ERRO: Nome Ficheiro inexistente");
+            throw new IOException("Invalid FileName");
         }
         return lines;
     }
