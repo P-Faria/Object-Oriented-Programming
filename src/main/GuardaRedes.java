@@ -56,4 +56,18 @@ public class GuardaRedes extends Jogador{
     public GuardaRedes clone(){
         return new GuardaRedes(this);
     }
+
+    @Override
+    public String specialName() {
+        return "Elasticidade";
+    }
+    @Override
+    public void setSpecial(int special) {
+        this.setElasticidade(special);
+    }
+
+    @Override
+    public int getSpecial() {
+        return this.getElasticidade();
+    }
 }

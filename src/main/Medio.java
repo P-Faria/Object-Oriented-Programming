@@ -69,4 +69,18 @@ public class Medio extends Jogador {
                 "\n\nRating: " + this.Rating();
         return sb;
     }
+
+    @Override
+    public String specialName() {
+        return "Recuperação";
+    }
+    @Override
+    public void setSpecial(int special) {
+        this.setRecuperacao(special);
+    }
+
+    @Override
+    public int getSpecial() {
+        return this.getRecuperacao();
+    }
 }

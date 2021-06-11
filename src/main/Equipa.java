@@ -39,29 +39,29 @@ public class Equipa implements Serializable {
     }
 
 
-    public void insereJogadorController(Jogador j){
-        if (!(jogadores.contains(j))){
-                j.setHistorico(this.getNome());
-                this.jogadores.add(j.clone());
-
-            }else throw new IllegalArgumentException("Player already in team");
-    }
-
     public void insereJogador(Jogador j){
-        if (!(jogadores.contains(j))){
+        if (!this.isPresent(j)){
+            j.setHistorico(this.getNome());
            this.jogadores.add(j.clone());
+
 
         }else throw new IllegalArgumentException("Player already in team");
     }
 
-    public void removePlayerTeam(Jogador j){
-        if (jogadores.contains(j)){
-        jogadores.remove(j);
-        }else throw new IllegalArgumentException("Player not in Team");
+    public void removePlayerTeam(Jogador j) {
+        if (this.isPresent(j)) {
+            this.jogadores.removeIf(r -> r.nameEquals(j.getNomeJogador()));
+        } else throw new IllegalArgumentException("Player not in Team");
     }
+
+
 
     public List<Jogador> getJogadores() {
         return jogadores;
+    }
+
+    public boolean isPresent(Jogador j) {
+        return this.jogadores.stream().anyMatch(f->f.nameEquals(j.getNomeJogador()));
     }
 
     public Jogador getJogadorByName(String name){
@@ -73,13 +73,14 @@ public class Equipa implements Serializable {
     }
 
     public String toString(){
-        StringBuilder r = new StringBuilder("Equipa:" + nome + "\n");
-
-        for (Jogador j : jogadores) {
-                r.append(j.getNomeJogador()).append("\n");
+        StringBuilder r = new StringBuilder("\nEquipa:" + nome + "\n");
+        if (jogadores.size()>0) {
+            for (Jogador j : jogadores) {
+                r.append(j.getNomeJogador()).append(": ").append(j.getClass().getSimpleName()).append("\n");
             }
-
             r.append("Rating de Equipa: ").append(this.RatingEquipa()).append("\n");
+        }
+
         return r.toString();
     }
 
@@ -90,17 +91,18 @@ public class Equipa implements Serializable {
 
     public int ratingJogadores(List<Integer> players){
 
-
             List<Jogador> res = jogadores.stream(). //vai a lista de jogadores da equipa
                     filter(pl -> players.stream().  //filtra todos os resultados da lista dada
                     anyMatch(it->it.equals(pl.getNumeroJogador()))) // em que os valores numeroJogador e o valor dado seja igual
                     .collect(Collectors.toList());      //devolve a lista de todos os jogadores que obedecem á condição
-        //debug
-        for (Jogador j: res){
-            System.out.println(j.getNomeJogador() + j.Rating());
-        }
-            return (int) (res.stream().mapToInt(Jogador::Rating).sum() / 11);
 
+            return (int) (res.stream().mapToInt(Jogador::Rating).sum() / 11);
     }
+
+    public int getIndexJogador(String nomeJogador) {
+        Jogador j = jogadores.stream().filter(f->f.nameEquals(nomeJogador)).findAny().get();
+        return this.jogadores.indexOf(j);
+    }
+
 
 }

@@ -154,4 +154,7 @@ public abstract class  Jogador implements Serializable {
 
 
     abstract public Jogador clone();
+    abstract public String specialName();
+    abstract public void setSpecial(int special);
+    abstract public int getSpecial();
 }

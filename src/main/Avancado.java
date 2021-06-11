@@ -12,7 +12,6 @@ public class Avancado extends Jogador {
 
     public static Avancado parse(String input){
         String[] campos = input.split(",");
-        int sum=0;
         if (campos.length<10){
             int skill =getSkillRandom(campos);
             return new Avancado(campos[0], Integer.parseInt(campos[1]),
@@ -45,8 +44,8 @@ public class Avancado extends Jogador {
     }
 
     public int Rating(Avancado j){
-        double doub= (((j.getCabeca()*0.75)+(j.getDestreza()*1)+(j.getImpulsao()*0.5)+(j.getRemate()*0.25)
-                +(j.getVelocidade()*0.50)+(j.getResistencia()*1.25)+(j.getPasse()*1.25)+(j.getFinalizacao()*1.50)/8));
+        double doub= (((getCabeca()*1)+(getDestreza()*0.75)+(getImpulsao()*0.5)+(getRemate()*1.75)
+                +(getVelocidade()*0.50)+(getResistencia()*0.75)+(getPasse()*0.25)+(getFinalizacao()*1.50))/8);
 
         return (int) doub;
     }
@@ -73,5 +72,20 @@ public class Avancado extends Jogador {
                 "\nPasse: " + this.getPasse() + "\tFinalização: " + this.getFinalizacao() +
                 "\n\nRating: " + this.Rating();
         return sb;
+    }
+
+    @Override
+    public String specialName() {
+        return "Finalização";
+    }
+
+    @Override
+    public void setSpecial(int special) {
+        this.setFinalizacao(special);
+    }
+
+    @Override
+    public int getSpecial() {
+        return this.getFinalizacao();
     }
 }

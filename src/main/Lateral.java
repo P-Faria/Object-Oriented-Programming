@@ -69,4 +69,19 @@ public class Lateral extends Jogador{
                 "\n\nRating: " + this.Rating();
         return sb;
     }
+
+    @Override
+    public String specialName() {
+        return "Cruzamento";
+    }
+
+    @Override
+    public void setSpecial(int special) {
+        this.setCruzamento(special);
+    }
+
+    @Override
+    public int getSpecial() {
+        return this.getCruzamento();
+    }
 }

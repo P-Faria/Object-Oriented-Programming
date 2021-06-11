@@ -78,4 +78,17 @@ public class Defesa extends Jogador {
         return sb;
     }
 
+    @Override
+    public String specialName() {
+        return "Carrinhos";
+    }
+    @Override
+    public void setSpecial(int special) {
+        this.setCarrinhos(special);
+    }
+
+    @Override
+    public int getSpecial() {
+        return this.getCarrinhos();
+    }
 }

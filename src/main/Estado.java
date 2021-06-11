@@ -64,7 +64,7 @@ public class Estado implements Serializable {
     public void setJogos(List<Jogo> jogos) {
         this.jogos = jogos;
     }
-
+    /*
     public void debug(){
         for (Equipa Ee: this.equipas.values()){
             System.out.println(Ee.toString());
@@ -72,23 +72,25 @@ public class Estado implements Serializable {
         for (Jogo jog: this.jogos){
             System.out.println(jog.toString());
         }
-    }
+    }*/
 
     /**
-     * Metodo que dado um jogo decide um vencedor dependendo dos ratings das equipas levadas para o jogo
+     * Metodo que dado um jogo decide um vencedor dependendo dos ratings das equipas levadas para o jogo, este metodo
+     * adiciona o jogo criado ao estado
      * @param ec    String equipa Casa
      * @param ef    String equipa Visitante
-     * @param d     Data do jogo
+     * @param d     Data do jogo (caso seja null sera introduzida a data atual)
      * @param jc    lista de jogadores da equipa da Casa titulares
      * @param sc    Map das substituições a fazer da equipa da Casa
      * @param jf    Map das substituições a fazer da equipa Visitante
      * @param sf    lista de jogadores da equipa Visitante titulares
      * @return  O Jogo após ter sido jogado
      */
-    public Jogo Jogar (String ec,String ef, LocalDate d, List<Integer> jc,Map<Integer, Integer> sc, List<Integer> jf, Map<Integer, Integer> sf){
-        //TODO: caso se faça 1 controller esta função pode passar para Jogo.java.
-        int rCasa,rFora,rCasaSub,rForaSub,vantagemCasa,vantagemFora,igualdade;
+    public Jogo Jogar (String ec,String ef, LocalDate d, List<Integer> jc,Map<Integer, Integer> sc, List<Integer> jf, Map<Integer, Integer> sf) throws EmptyParameterException {
+        int rCasa,rFora,rCasaSub,rForaSub,vantagemCasa,vantagemFora;double igualdade;
         int gc=0,gf=0;
+        if (d==null) d = LocalDate.now();
+        if(ec.equals("")||ef.equals("")||jc.isEmpty()||jf.isEmpty())throw new EmptyParameterException("Parametro em falta em Estado.Jogar");
 
 
         Equipa casa = this.equipas.get(ec);
@@ -96,15 +98,19 @@ public class Estado implements Serializable {
 
         rCasa = casa.ratingJogadores(jc);
         rFora = fora.ratingJogadores(jf);
+        List<Integer> casaSubed;
+        List<Integer> foraSubed;
+        if(!sc.isEmpty()) {
+            casaSubed= substitui(jc,sc);
+            rCasaSub = casa.ratingJogadores(casaSubed);
+        }else rCasaSub=rCasa;
+        if(!sf.isEmpty()){
+            foraSubed= substitui(jf,sf);
+            rForaSub = fora.ratingJogadores(foraSubed);
+        }else rForaSub =rFora;
 
-        List<Integer> casaSubed = substitui(jc,sc);
-        List<Integer> foraSubed = substitui(jf,sf);
-
-        rCasaSub = casa.ratingJogadores(casaSubed);
-        rForaSub = fora.ratingJogadores(foraSubed);
-
-        int rCasaTotal = rCasaSub+rCasa/2;
-        int rForaTotal = rForaSub+rFora/2;
+        int rCasaTotal = (rCasaSub+rCasa)/2;
+        int rForaTotal = (rForaSub+rFora)/2;
 
         int dif = rCasaTotal - rForaTotal;
         int numGolos = (int)(Math.random()*6+1); //1d6
@@ -116,8 +122,8 @@ public class Estado implements Serializable {
         }
 
         while(numGolos>0 && (dif==0)){
-            igualdade = (int)(Math.random()*2+1);
-            if (igualdade>1) gc++;
+            igualdade =Math.random();
+            if (igualdade>0.5) gc++;
             else gf++;
             numGolos--;
         }
@@ -127,34 +133,48 @@ public class Estado implements Serializable {
             else gc++;
             numGolos--;
         }
-
-        return new Jogo(ec,ef,gc,gf,d,jc,sc,jf,sf);
+        Jogo jogado = new Jogo(ec,ef,gc,gf,d,jc,sc,jf,sf);
+        this.jogos.add(jogado);
+        return jogado;
     }
 
     /**
      * Metodo que dado um jogo decide um vencedor dependendo dos ratings das equipas levadas para o jogo
+     * ATENÇÃO este metodo não insere o jogo no Estado!
      * @param game o Jogo a ser jogado
      * @return o Jogo após ter sido jogado
      */
     public Jogo Jogar (Jogo game){
 
-        int rCasa,rFora,rCasaSub,rForaSub,vantagemCasa,vantagemFora,igualdade;
-
+        int rCasa,rFora,rCasaSub,rForaSub,vantagemCasa,vantagemFora;double igualdade;
+        List<Integer> jc,jf; Map<Integer,Integer> sc,sf;
+        jc = game.getJogadoresCasa();
+        sc = game.getSubstituicoesCasa();
+        jf = game.getJogadoresFora();
+        sf = game.getSubstitucoesFora();
+        game.setGolosCasa(0);
+        game.setGolosFora(0);
 
         Equipa casa = this.equipas.get(game.getEquipaCasa());
         Equipa fora = this.equipas.get(game.getEquipaFora());
 
-        rCasa = casa.ratingJogadores(game.getJogadoresCasa());
-        rFora = fora.ratingJogadores(game.getJogadoresFora());
+        rCasa = casa.ratingJogadores(jc);
+        rFora = fora.ratingJogadores(jf);
 
-        List<Integer> casaSubed = substitui(game.getJogadoresCasa(),game.getSubstituicoesCasa());
-        List<Integer> foraSubed = substitui(game.getJogadoresFora(),game.getSubstitucoesFora());
+        List<Integer> casaSubed;
+        List<Integer> foraSubed;
 
-        rCasaSub = casa.ratingJogadores(casaSubed);
-        rForaSub = fora.ratingJogadores(foraSubed);
+        if(!sc.isEmpty()) {
+            casaSubed= substitui(jc,sc);
+            rCasaSub = casa.ratingJogadores(casaSubed);
+        }else rCasaSub=rCasa;
+        if(!sf.isEmpty()){
+            foraSubed= substitui(jf,sf);
+            rForaSub = fora.ratingJogadores(foraSubed);
+        }else rForaSub =rFora;
 
-        int rCasaTotal = rCasaSub+rCasa/2;
-        int rForaTotal = rForaSub+rFora/2;
+        int rCasaTotal = (rCasaSub+rCasa)/2;
+        int rForaTotal = (rForaSub+rFora)/2;
 
         int dif = rCasaTotal - rForaTotal;
         int numGolos = (int)(Math.random()*6+1); //1d6
@@ -166,23 +186,19 @@ public class Estado implements Serializable {
         }
 
         while(numGolos>0 && (dif==0)){
-            igualdade = (int)(Math.random()*2+1); //flip a coin
-            if (igualdade>1) game.setGolosCasa(game.getGolosCasa()+1);
+            igualdade = Math.random(); //flip a coin
+            if (igualdade>0.5) game.setGolosCasa(game.getGolosCasa()+1);
             else game.setGolosFora(game.getGolosFora()+1);
             numGolos--;
         }
 
-        while(numGolos>0 && (0>dif)){
+        while(numGolos>0){
                 if (roll(Math.abs(dif))) game.setGolosFora(game.getGolosFora()+1);
                 else game.setGolosCasa(game.getGolosCasa()+1);
                 numGolos--;
         }
         return game;
     }
-    private boolean isGolo(int roll){
-        return roll > 6;
-    }
-
     /**
      * Metodo que faz o lançamento de dados usando um fator de vantagem e devolve se foi golo ou não
      * @param num um valor que é usado para dar vantagem a equipas fortes
@@ -190,9 +206,8 @@ public class Estado implements Serializable {
      */
     private boolean roll(int num){
         int res;
-        if (num>=10) res =(int)(Math.random()*6+1); //1d6
-        else if(num>=5) res = (int)(Math.random()*4+1);// 1d4
-        else res = (int)(Math.random()*num+1); // 1d(1...4)
+        if (num>10) res=(((num-10)/2)+5); //d&d5th edition +5 pelos negativos
+        else res = num/2;// 1 a 5
         int dice1=(int)(Math.random()*6+1);
 
         return dice1 + (res) > 6;
@@ -229,9 +244,30 @@ public class Estado implements Serializable {
     public void transferencia(Jogador j,Equipa e1,Equipa e2){
         e1.removePlayerTeam(j);
         e2.insereJogador(j);
+        int key = -1;
+        try{
+            key = this.getPlayerIndex(j);
+        }catch (ParameterNotInScopeException pmn){
+            System.exit(6);
+        }
+        this.jogadores.put(key,j.clone());
 
     }
 
+
+    public void updatePlayer(Jogador j) throws NotFoundException {
+        Equipa e =this.equipas.values().stream().filter(f->f.isPresent(j)).findAny().orElseThrow(NotFoundException::new);
+        e.removePlayerTeam(j);
+        e.insereJogador(j);
+    }
+    public int getPlayerIndex(Jogador j) throws ParameterNotInScopeException {
+        for (Map.Entry<Integer, Jogador> entry : jogadores.entrySet()) {
+            if (entry.getValue().equals(j)) {
+                return (entry.getKey());
+            }
+        }
+        throw new ParameterNotInScopeException("Jogador not found");
+    }
 
 
     // Save in object file
@@ -252,6 +288,4 @@ public class Estado implements Serializable {
         fis.close();
         return loaded;
     }
-
-
 }

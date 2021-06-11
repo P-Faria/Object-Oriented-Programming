@@ -126,10 +126,19 @@ public class Jogo implements Serializable {
         this.substitucoesFora = substitucoesFora;
     }
 
+    public String Vencedor(){
+        if (this.golosCasa > this.golosFora) return this.equipaCasa;
+        else if(this.golosFora > this.golosCasa) return this.equipaFora;
+        else return "Empate";
+    }
+
     public String toString() {
-        return  "Jogo:" + equipaCasa + " - " + equipaFora
-        + " Subs Casa -> " + substituicoesCasa.toString()
-        + " Subs Fora -> " + substitucoesFora.toString();
+        return  "Jogo:" + equipaCasa + " vs. " + equipaFora
+        + "\nData de Jogo:" + date.toString()
+        + "\nResulstado:" + golosCasa + " : " + golosFora
+        + "\nVencedor:"   + this.Vencedor()
+        + "\nSubs Casa -> " + substituicoesCasa.toString()
+        + "\nSubs Fora -> " + substitucoesFora.toString();
     }
 
 

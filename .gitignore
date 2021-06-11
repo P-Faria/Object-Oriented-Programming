@@ -26,9 +26,8 @@ hs_err_pid*
 .idea
 /out/
 /given/
-/src/bin/save.OBJ
-
-docs/*
+/src/bin/*.obj
 
 !/docs/*.pdf
 !/docs/*.txt
+/src/main/META-INF
