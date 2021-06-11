@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,13 +89,13 @@ public class Parser {
         Map<Integer, Jogador> jogadores = new HashMap<>(); //numero, jogador
         List<Jogo> jogos = new ArrayList<>();
         int id =0;
-        Equipa ultima = null; Jogador j = null;
+        Equipa ultima = null; Jogador j;
         String[] linhaPartida;
         for (String linha : linhas) {
             linhaPartida = linha.split(":", 2);
             switch(linhaPartida[0]){
                 case "Equipa":
-                    debugRatingEquipa(ultima);
+                    //debugRatingEquipa(ultima);
                     Equipa eq = Equipa.parse(linhaPartida[1]);
                     equipas.put(eq.getNome(), eq);
                     ultima = eq;
@@ -109,7 +108,7 @@ public class Parser {
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
 
                     //debug
-                    debugRating(j,ultima);
+                    //debugRating(j,ultima);
                     break;
                 case "Defesa":
                     j = Defesa.parse(linhaPartida[1]);
@@ -118,7 +117,7 @@ public class Parser {
                     j.setHistorico(ultima.getNome());
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
-                    debugRating(j,ultima);
+                    //debugRating(j,ultima);
                     break;
                 case "Medio":
                     j = Medio.parse(linhaPartida[1]);
@@ -127,7 +126,7 @@ public class Parser {
                     j.setHistorico(ultima.getNome());
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
-                    debugRating(j,ultima);
+                    //debugRating(j,ultima);
                     break;
                 case "Lateral":
                     j = Lateral.parse(linhaPartida[1]);
@@ -136,7 +135,7 @@ public class Parser {
                     j.setHistorico(ultima.getNome());
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
-                    debugRating(j,ultima);
+                    //debugRating(j,ultima);
                     break;
                 case "Avancado":
                     j = Avancado.parse(linhaPartida[1]);
@@ -145,7 +144,7 @@ public class Parser {
                     j.setHistorico(ultima.getNome());
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
-                    debugRating(j,ultima);
+                    //debugRating(j,ultima);
                     break;
                 case "Jogo":
                     Jogo jo = Jogo.parse(linhaPartida[1]);
@@ -161,18 +160,19 @@ public class Parser {
         e.setJogos(jogos);
 
         //debug
+        /*
         for (Equipa Ee: e.equipas.values()){
             System.out.println(Ee.toString());
         }
         for (Jogo jog: e.jogos){
             System.out.println(jog.toString());
-        }
+        }*/
 
     }
 
 
     public static List<String> lerFicheiro(String nomeFich) throws IOException {
-        List<String> lines=null;
+        List<String> lines;
         try {
             lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8);
         } catch(IOException exc) {

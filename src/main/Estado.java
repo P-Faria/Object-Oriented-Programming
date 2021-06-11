@@ -87,7 +87,7 @@ public class Estado implements Serializable {
      * @return  O Jogo após ter sido jogado
      */
     public Jogo Jogar (String ec,String ef, LocalDate d, List<Integer> jc,Map<Integer, Integer> sc, List<Integer> jf, Map<Integer, Integer> sf) throws EmptyParameterException {
-        int rCasa,rFora,rCasaSub,rForaSub,vantagemCasa,vantagemFora;double igualdade;
+        int rCasa,rFora,rCasaSub,rForaSub;double igualdade;
         int gc=0,gf=0;
         if (d==null) d = LocalDate.now();
         if(ec.equals("")||ef.equals("")||jc.isEmpty()||jf.isEmpty())throw new EmptyParameterException("Parametro em falta em Estado.Jogar");

@@ -96,7 +96,7 @@ public class Equipa implements Serializable {
                     anyMatch(it->it.equals(pl.getNumeroJogador()))) // em que os valores numeroJogador e o valor dado seja igual
                     .collect(Collectors.toList());      //devolve a lista de todos os jogadores que obedecem á condição
 
-            return (int) (res.stream().mapToInt(Jogador::Rating).sum() / 11);
+            return (res.stream().mapToInt(Jogador::Rating).sum() / 11);
     }
 
     public int getIndexJogador(String nomeJogador) {

@@ -20,7 +20,6 @@ public class Medio extends Jogador {
 
     public static Medio parse(String input){
         String[] campos = input.split(",");
-        int sum=0;
         if (campos.length<10){
             int skill =getSkillRandom(campos);
             return new Medio(campos[0], Integer.parseInt(campos[1]),
@@ -60,14 +59,13 @@ public class Medio extends Jogador {
 
     public String prettyToString(){
 
-        String sb = "--Perfil do Jogador-- " + "\nNome: " + this.getNomeJogador() + "\n" +
+        return "--Perfil do Jogador-- " + "\nNome: " + this.getNomeJogador() + "\n" +
                 "Numero: " + this.getNumeroJogador() + "\n" + "-- Valores de Habilidade--\n" +
                 "Velocidade: " + this.getVelocidade() + "\tResistencia: " + this.getResistencia() +
                 "\nDestreza: " + this.getDestreza() + ("\tImpulsão: ") + this.getImpulsao() +
                 "\nCabeceamento: " + this.getCabeca() + "\tRemate: " + this.getRemate() +
                 "\nPasse: " + this.getPasse() + "\tRecuperação: " + this.getRecuperacao() +
                 "\n\nRating: " + this.Rating();
-        return sb;
     }
 
     @Override

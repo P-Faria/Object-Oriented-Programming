@@ -47,13 +47,6 @@ public class Defesa extends Jogador {
         this.carrinhos = carrinhos;
     }
 
-    public int Rating(Defesa j){
-        double doub= (((getCabeca()*1)+(getDestreza()*1)+(getImpulsao()*0.75)+(getRemate()*0.25)
-                +(getVelocidade()*0.25)+(getResistencia()*1.25)+(getPasse()*1.75)+(getCarrinhos()*1.75))/8);
-
-        return (int) doub;
-    }
-
     public int Rating(){
         double doub= (((getCabeca()*1)+(getDestreza()*1)+(getImpulsao()*0.75)+(getRemate()*0.25)
                 +(getVelocidade()*0.25)+(getResistencia()*1.25)+(getPasse()*1.75)+(getCarrinhos()*1.75))/8);
