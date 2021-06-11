@@ -66,4 +66,16 @@ public class Defesa extends Jogador {
         return new Defesa(this);
     }
 
+    public String prettyToString(){
+
+        String sb = "--Perfil do Jogador-- " + "\nNome: " + this.getNomeJogador() + "\n" +
+                "Numero: " + this.getNumeroJogador() + "\n" + "-- Valores de Habilidade--\n" +
+                "Velocidade: " + this.getVelocidade() + "\tResistencia: " + this.getResistencia() +
+                "\nDestreza: " + this.getDestreza() + ("\tImpulsão: ") + this.getImpulsao() +
+                "\nCabeceamento: " + this.getCabeca() + "\tRemate: " + this.getRemate() +
+                "\nPasse: " + this.getPasse() + "\tCarrinhos: " + this.getCarrinhos() +
+                "\n\nRating: " + this.Rating();
+        return sb;
+    }
+
 }

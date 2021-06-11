@@ -46,13 +46,7 @@ public class Lateral extends Jogador{
                 Integer.parseInt(campos[9]));
     }
 
-    public int Rating(Lateral j){
-        double doub= (((getCabeca()*0.25)+(getDestreza()*1)+(getImpulsao()*0.5)+(getRemate()*0.25)
-                +(getVelocidade()*1)+(getResistencia()*1.25)+(getPasse()*1.25)+(getCruzamento()*1.50))/8);
 
-        return (int) doub;
-    }
-    @Override
     public int Rating(){
         double doub= (((getCabeca()*0.25)+(getDestreza()*1)+(getImpulsao()*0.5)+(getRemate()*0.25)
                 +(getVelocidade()*1)+(getResistencia()*1.25)+(getPasse()*1.25)+(getCruzamento()*1.50))/8);
@@ -60,8 +54,19 @@ public class Lateral extends Jogador{
         return (int) doub;
     }
 
-    @Override
     public Lateral clone() {
         return new Lateral(this);
+    }
+
+    public String prettyToString(){
+
+        String sb = "--Perfil do Jogador-- " + "\nNome: " + this.getNomeJogador() + "\n" +
+                "Numero: " + this.getNumeroJogador() + "\n" + "-- Valores de Habilidade--\n" +
+                "Velocidade: " + this.getVelocidade() + "\tResistencia: " + this.getResistencia() +
+                "\nDestreza: " + this.getDestreza() + ("\tImpulsão: ") + this.getImpulsao() +
+                "\nCabeceamento: " + this.getCabeca() + "\tRemate: " + this.getRemate() +
+                "\nPasse: " + this.getPasse() + "\tCruzamento: " + this.getCruzamento() +
+                "\n\nRating: " + this.Rating();
+        return sb;
     }
 }

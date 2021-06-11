@@ -34,18 +34,23 @@ public class GuardaRedes extends Jogador{
                 Integer.parseInt(campos[9]));
     }
 
-    public int Rating(GuardaRedes j){
-        double doub= (((j.getCabeca()*0.5)+(j.getDestreza()*0.75)+(j.getImpulsao()*1.50)+(j.getRemate()*1)
-                +(j.getVelocidade()*0.75)+(j.getResistencia()*0.75)+(j.getPasse()*1)+(j.getElasticidade()*1.75)/8));
-
-        return (int) doub;
-    }
-
-    public int Rating(){
+        public int Rating(){
         double doub= (((getCabeca()*0.5)+(getDestreza()*0.75)+(getImpulsao()*1.50)+(getRemate()*1)
                 +(getVelocidade()*0.75)+(getResistencia()*0.75)+(getPasse()*1)+(getElasticidade()*1.75))/8);
 
         return (int) doub;
+    }
+
+    public String prettyToString(){
+
+        String sb = "--Perfil do Jogador-- " + "\nNome: " + this.getNomeJogador() + "\n" +
+                "Numero: " + this.getNumeroJogador() + "\n" + "-- Valores de Habilidade--\n" +
+                "Velocidade: " + this.getVelocidade() + "\tResistencia: " + this.getResistencia() +
+                "\nDestreza: " + this.getDestreza() + ("\tImpulsão: ") + this.getImpulsao() +
+                "\nCabeceamento: " + this.getCabeca() + "\tRemate: " + this.getRemate() +
+                "\nPasse: " + this.getPasse() + "\tElasticidade: " + this.getElasticidade() +
+                "\n\nRating: " + this.Rating();
+        return sb;
     }
 
     public GuardaRedes clone(){

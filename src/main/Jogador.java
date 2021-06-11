@@ -43,7 +43,7 @@ public abstract class  Jogador implements Serializable {
     }
 
     public String getNomeJogador() {
-        return nomeJogador;
+        return this.nomeJogador;
     }
 
     public void setNomeJogador(String nomeJogador) {
@@ -115,7 +115,7 @@ public abstract class  Jogador implements Serializable {
     }
 
     public void setHistorico(String equipa) {
-        historico.add(equipa);
+        this.historico.add(equipa);
     }
 
     public Set<String> getHistorico() {
@@ -125,6 +125,7 @@ public abstract class  Jogador implements Serializable {
     public String toString() {
         return this.nomeJogador + "\n";
     }
+    abstract public String prettyToString();
 
     static int getSkillRandom(String[] campos) {
         int sum = 0;
@@ -146,6 +147,11 @@ public abstract class  Jogador implements Serializable {
 
 
     }
+
+    public boolean nameEquals(String name){
+        return this.nomeJogador.equals(name);
+    }
+
 
     abstract public Jogador clone();
 }

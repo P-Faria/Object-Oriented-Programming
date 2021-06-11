@@ -39,11 +39,19 @@ public class Equipa implements Serializable {
     }
 
 
+    public void insereJogadorController(Jogador j){
+        if (!(jogadores.contains(j))){
+                j.setHistorico(this.getNome());
+                this.jogadores.add(j.clone());
+
+            }else throw new IllegalArgumentException("Player already in team");
+    }
+
     public void insereJogador(Jogador j){
         if (!(jogadores.contains(j))){
-                this.jogadores.add(j);
-                j.setHistorico(this.nome);
-            }else throw new IllegalArgumentException("Player already in team");
+           this.jogadores.add(j.clone());
+
+        }else throw new IllegalArgumentException("Player already in team");
     }
 
     public void removePlayerTeam(Jogador j){
@@ -66,12 +74,12 @@ public class Equipa implements Serializable {
 
     public String toString(){
         StringBuilder r = new StringBuilder("Equipa:" + nome + "\n");
-        if (this.jogadores!=null) {
-            for (Jogador j : jogadores) {
-                r.append(j.toString());
+
+        for (Jogador j : jogadores) {
+                r.append(j.getNomeJogador()).append("\n");
             }
+
             r.append("Rating de Equipa: ").append(this.RatingEquipa()).append("\n");
-        }
         return r.toString();
     }
 

@@ -1,5 +1,8 @@
 import java.io.IOException;
 import java.security.InvalidKeyException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Controller {
@@ -9,36 +12,35 @@ public class Controller {
         String path;
         Scanner inputScanner = new Scanner(System.in);
         //inputScanner.useDelimiter("/n");
-        while (true){
-            Menu.menuPrincipal(status==null);
+        while (true) {
+            Menu.menuPrincipal(status == null);
             int option = inputScanner.nextInt();
-            switch (option){
-                case 1:
+            switch (option) {
+                case 1: // Carregar Estado
                     Menu.clean();
-                    status = new Estado();
                     String nomeFich = null;
-                    option=0;
-                    while (1>option || option >3){
+                    option = 0;
+                    while (1 > option || option > 3) {
                         Menu.menuCarregamento();
                         option = inputScanner.nextInt();
                         Menu.clean();
                     }
-                    if(option == 1) nomeFich ="src/bin/logs.txt";
-                    else if(option == 3) {
-                    System.out.println("\nRegressando ao menu Principal\n");
-                    Menu.clean();
-                    break;
-                    } else {
+                    if (option == 1) nomeFich = "src/bin/logs.txt"; //Default
+                    else if (option == 3) {  //Sair
+                        System.out.println("\nRegressando ao menu Principal\n");
+                        Menu.clean();
+                        break;
+                    } else { //2 <> Carregar de custom path
                         System.out.println("\nPor Favor introduza o caminho do ficheiro\n");
-                        nomeFich = inputScanner.nextLine()+inputScanner.nextLine();
+                        nomeFich = inputScanner.nextLine() + inputScanner.nextLine();
                         Menu.clean();
                     }
 
                     //proceder ao carregamento
-                    try{
-                        Parser.parse(status,nomeFich);
-                    }
-                    catch (Exception e){
+                    if (status == null) status = new Estado();
+                    try {
+                        Parser.parse(status, nomeFich);
+                    } catch (Exception e) {
                         System.out.println("Erro durante o Carregamento\n");
                     }
 
@@ -47,25 +49,22 @@ public class Controller {
                     break;
                 case 2:
                     Menu.clean();
-                    option=0;
-                    while (1>option || option >3){
+                    option = 0;
+                    while (1 > option || option > 3) {
                         Menu.menuCreation();
                         option = inputScanner.nextInt();
                         Menu.clean();
                     }
-                    if (option==1) {
+                    if (option == 1) {
                         Menu.menuCreationEquipa();
-                        //inputScanner.nextLine();
-                        String team = inputScanner.nextLine()+inputScanner.nextLine();
+                        if (status == null) status = new Estado();
+                        String team = inputScanner.nextLine() + inputScanner.nextLine();
                         Equipa nova = new Equipa(team);
-                        if (status == null) {
-                            System.out.println("Estado por inicializar\n");
-                            break;
-                        }
-                        else status.equipas.put(team, nova);
+                        status.equipas.put(team, nova);
                         break;
-                    }else if (option==2) {
+                    } else if (option == 2) {
                         Menu.menuCreationJogador();
+                        if (status == null) status = new Estado();
                         String jNome = inputScanner.nextLine() + inputScanner.nextLine();
                         Menu.menuCreationJogadorPos();
                         int pos = inputScanner.nextInt();
@@ -73,7 +72,7 @@ public class Controller {
                         int jNum = inputScanner.nextInt();
                         option = 0;
                         Menu.menuCreationJogadorStats();
-                        int vel=0,res=0, des=0, imp=0, cab=0, rem=0, pas=0, spe=0;
+                        int vel = 0, res = 0, des = 0, imp = 0, cab = 0, rem = 0, pas = 0, spe = 0;
                         option = inputScanner.nextInt();
                         if (option == 1) {
                             int check = 0;
@@ -136,7 +135,8 @@ public class Controller {
                         }
                         int idMax = status.jogadores.keySet().stream().max(Integer::compareTo).orElseThrow(InvalidKeyException::new);
                         status.jogadores.put(idMax + 1, jog);
-                        if (nomeEquipa != null && status.equipas.containsKey(nomeEquipa)) status.equipas.get(nomeEquipa).insereJogador(jog);
+                        if (nomeEquipa != null && status.equipas.containsKey(nomeEquipa))
+                            status.equipas.get(nomeEquipa).insereJogadorController(jog);
                         else {
                             System.out.println("Nome de Equipa Inexistente");
                             break;
@@ -144,33 +144,88 @@ public class Controller {
                         }
                     }
                 case 3:
+                    if (status == null) {
+                        System.out.println("Não se pode consultar algo que não existe!\n");
+                        break;
+                    }
                     Menu.clean();
-                    option=0;
-                    while (1>option || option >2){
+                    option = 0;
+                    while (1 > option || option > 2) {
                         Menu.menuConsulta();
                         option = inputScanner.nextInt();
                         Menu.clean();
                     }
-                        //TODO: ACABAR OS MENUS
+                    if (option == 1) {// consultar equipas
+                        Menu.menuConsultaEquipas();
+                        String consultEq = inputScanner.nextLine() + inputScanner.nextLine();
+                        if (consultEq.equals("") || (!Objects.requireNonNull(status).equipas.containsKey(consultEq))) {
+                            System.out.println("Nome Incorreto");
+                            break;
+                        } else {
+                            Equipa team = status.equipas.get(consultEq);
+                            System.out.print("\n" + team.toString());
+                            Controller.pressEnterKeyToContinue();
+                            break;
+                        }
+
+
+                    } else if (option == 2) { //consultar jogadores
+                        Menu.menuConsultaJogador();
+                        String consultJog = inputScanner.nextLine() + inputScanner.nextLine();
+                        if ((consultJog.equals("")) || !(status.isPlayer(consultJog))) {
+                            System.out.println("Nome Incorreto");
+                            break;
+                        } else {
+                            Jogador jog = status.getJogadorByName(consultJog);
+                            if (status.isPlayerinAnyTeam(jog)) {
+                                System.out.print(jog.prettyToString());
+                            } else
+                                System.out.print(jog.prettyToString() + "\n\nJogador da Equipa: " + status.getTeamNameifPlayerPresent(jog) + "\nEquipas onde Jogou:\n" + jog.getHistorico());
+                            Controller.pressEnterKeyToContinue();
+                            break;
+                        }
+
+                    }
 
                 case 4:
                 case 8:
-                    if (status!=null){
-                        try{
+                    String saveLoc = "";
+                    if (status != null) {
+                        try {
                             Menu.menuGuardar();
-                            String saveLoc = inputScanner.nextLine()+inputScanner.nextLine();
+                            saveLoc = inputScanner.nextLine() + inputScanner.nextLine();
+                            if (saveLoc.equals("")) saveLoc = "src/bin/save.obj";
                             status.save(saveLoc);
+                            System.out.println("Estado Guardado!");
                             break;
-                        } catch (Exception guard){
+                        } catch (Exception guard) {
                             System.out.println("Erro em: Guardar\n");
                             System.exit(8);
                         }
-                    }else throw new NullPointerException("Não é possivel guardar objectos inexistentes");
+                    } else throw new NullPointerException("Não é possivel guardar objectos inexistentes");
                 case 9:
+                    String loadLoc = "";
+                    Menu.menuCarregar();
+                    loadLoc = inputScanner.nextLine() + inputScanner.nextLine();
+                    if (loadLoc.equals("")) loadLoc = "src/bin/save.obj";
+                    status = new Estado();
+                    System.out.println("\nA carregar de:"+loadLoc);
+                    status = Estado.load(loadLoc);
+                    System.out.println("\nEstado Carregado!\nA voltar ao menu principal\n");
+                    break;
                 case 0:
                     System.exit(0);
                     break;
             }
+        }
+    }
+
+
+    static private void pressEnterKeyToContinue() {
+        System.out.println("\nPressione enter para continuar\n");
+        try {
+            System.in.read();
+        } catch (Exception ignored) {
         }
     }
 }

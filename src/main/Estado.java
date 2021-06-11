@@ -5,23 +5,40 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class Estado implements Serializable {
-    Map<String, Equipa> equipas = new HashMap<>(); //nome, equipa
-    Map<Integer, Jogador> jogadores = new HashMap<>(); //numero, jogador
+    Map<String, Equipa> equipas;//nome, equipa
+    Map<Integer, Jogador> jogadores; //numero, jogador
     List<Jogo> jogos;
 
-    public Estado(Map<String, Equipa> e,Map<Integer, Jogador> j,List<Jogo> g){
-        equipas.putAll(e);
-        jogadores.putAll(j);
-        jogos = new ArrayList<>(g);
+    public Estado() {
+    equipas = new HashMap<>();
+    jogadores = new HashMap<>();
+    jogos = new ArrayList<>();
     }
 
-    public Estado() {
-        equipas = null;
-        jogadores = null;
-        jogos = null;
+    public Estado(Map<String,Equipa> equipas, Map<Integer,Jogador> jogadores, List<Jogo> jogos) {
+        equipas = new HashMap<>(equipas);
+        jogadores = new HashMap<>(jogadores);
+        jogos = new ArrayList<>(jogos);
+    }
+
+    public boolean isPlayer(String nome) {
+        return jogadores.values().stream().anyMatch(f-> f.nameEquals(nome));
+    }
+    public Jogador getJogadorByName(String nome){
+        return jogadores.values().stream().filter(f->f.nameEquals(nome)).findAny().get();
+    }
+
+    public String getTeamNameifPlayerPresent(Jogador jog) {
+        for (Equipa t : equipas.values()) {
+            if (t.getJogadores().stream().anyMatch(f->f.nameEquals(jog.getNomeJogador()))) return t.getNome();
+        }
+        throw new InvalidParameterException("getTeamNameifPlayerPresent == false");
+    }
+
+    public boolean isPlayerinAnyTeam(Jogador jog){
+        return equipas.values().stream().anyMatch(f->f.getJogadores().contains(jog));
     }
 
     public Map<String, Equipa> getEquipas() {

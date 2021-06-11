@@ -76,6 +76,8 @@ public class Parser {
 
     }
 */
+
+
     public static void parse(Estado e,String nomeFich) throws LinhaIncorretaException {
         List<String> linhas = new ArrayList<>();
         try {
@@ -103,6 +105,7 @@ public class Parser {
                     j = GuardaRedes.parse(linhaPartida[1]);
                     jogadores.put(id++, j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    j.setHistorico(ultima.getNome());
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
 
                     //debug
@@ -112,6 +115,7 @@ public class Parser {
                     j = Defesa.parse(linhaPartida[1]);
                     jogadores.put(id++, j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    j.setHistorico(ultima.getNome());
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
                     debugRating(j,ultima);
@@ -120,6 +124,7 @@ public class Parser {
                     j = Medio.parse(linhaPartida[1]);
                     jogadores.put(id++, j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    j.setHistorico(ultima.getNome());
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
                     debugRating(j,ultima);
@@ -128,6 +133,7 @@ public class Parser {
                     j = Lateral.parse(linhaPartida[1]);
                     jogadores.put(id++, j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    j.setHistorico(ultima.getNome());
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
                     debugRating(j,ultima);
@@ -136,6 +142,7 @@ public class Parser {
                     j = Avancado.parse(linhaPartida[1]);
                     jogadores.put(id++, j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    j.setHistorico(ultima.getNome());
                     ultima.insereJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     //debug
                     debugRating(j,ultima);
@@ -162,6 +169,8 @@ public class Parser {
         }
 
     }
+
+
     public static List<String> lerFicheiro(String nomeFich) throws IOException {
         List<String> lines=null;
         try {

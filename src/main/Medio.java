@@ -45,13 +45,7 @@ public class Medio extends Jogador {
     }
 
 
-    public int Rating(Medio j){
-        double doub= (((j.getCabeca()*0.75)+(j.getDestreza()*1)+(j.getImpulsao()*0.5)+(j.getRemate()*0.25)
-                +(j.getVelocidade()*0.50)+(j.getResistencia()*1.25)+(j.getPasse()*1.25)+(j.getRecuperacao()*1.50)/8));
 
-        return (int) doub;
-    }
-    @Override
     public int Rating(){
         double doub= (((getCabeca()*0.75)+(getDestreza()*1)+(getImpulsao()*0.5)+(getRemate()*0.25)
                 +(getVelocidade()*0.50)+(getResistencia()*1.25)+(getPasse()*1.25)+(getRecuperacao()*1.50))/8);
@@ -59,8 +53,20 @@ public class Medio extends Jogador {
         return (int) doub;
     }
 
-    @Override
+
     public Medio clone() {
         return new Medio(this);
+    }
+
+    public String prettyToString(){
+
+        String sb = "--Perfil do Jogador-- " + "\nNome: " + this.getNomeJogador() + "\n" +
+                "Numero: " + this.getNumeroJogador() + "\n" + "-- Valores de Habilidade--\n" +
+                "Velocidade: " + this.getVelocidade() + "\tResistencia: " + this.getResistencia() +
+                "\nDestreza: " + this.getDestreza() + ("\tImpulsão: ") + this.getImpulsao() +
+                "\nCabeceamento: " + this.getCabeca() + "\tRemate: " + this.getRemate() +
+                "\nPasse: " + this.getPasse() + "\tRecuperação: " + this.getRecuperacao() +
+                "\n\nRating: " + this.Rating();
+        return sb;
     }
 }

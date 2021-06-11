@@ -18,17 +18,17 @@ public class Menu {
         System.out.print(menu);
     }
     public static void menuCreation() {
-        String menu = "\n1 <> Criar Equipa\n2 <> Criar Jogador\n 3<> Voltar ao Menu Principal\n";
+        String menu = "\n1 <> Criar Equipa\n2 <> Criar Jogador\n3 <> Voltar ao Menu Principal\n";
         System.out.print(menu);
     }
 
     public static void menuCreationEquipa() {
-        String menu = "\nInsira o nome da equipa:";
+        String menu = "\nInsira o nome da equipa:\n";
         System.out.print(menu);
     }
 
     public static void menuCreationJogador() {
-        String menu = "\nInsira o nome do Jogador:";
+        String menu = "\nInsira o nome do Jogador:\n";
         System.out.print(menu);
     }
 
@@ -43,7 +43,7 @@ public class Menu {
     }
 
     public static void menuCreationJogadorNumJog() {
-        String menu = "\nInsira o numero do Jogador:";
+        String menu = "\nInsira o numero do Jogador:\n";
         System.out.print(menu);
     }
 
@@ -68,13 +68,28 @@ public class Menu {
     }
 
     public static void menuConsulta() {
-        String menu= "\n1 <> Consultar Equipas\n2 <> Consultar Jogadores";
+        String menu= "\n1 <> Consultar Equipas\n2 <> Consultar Jogadores\n";
         System.out.print(menu);
 
     }
 
     public static void menuGuardar() {
-        String menu= "\nPor Favor introduza a localização e nome ficheiro\n";
+        String menu= "\nPor Favor introduza a a localização e nome.\nDeixe em branco para guardar em localização default\n";
+        System.out.print(menu);
+    }
+
+    public static void menuCarregar(){
+        String menu= "\nPor Favor introduza a localização e nome ficheiro\nDeixe em branco para carregar de localização default\n";
+        System.out.print(menu);
+    }
+
+    public static void menuConsultaEquipas() {
+        String menu= "\nPor Favor introduza o nome da Equipa que deseja consultar:\n";
+        System.out.print(menu);
+    }
+
+    public static void menuConsultaJogador() {
+        String menu= "\nPor Favor introduza o nome do Jogador que deseja consultar:\n";
         System.out.print(menu);
     }
 }
