@@ -12,7 +12,13 @@ public class Defesa extends Jogador {
         super(defesa);
         carrinhos=defesa.getCarrinhos();
     }
-
+    /**
+     * Metodo que Cria um Jogador dependendo do input por ficheiro de texto
+     * Caso não haja valor para habiidade especial ele gera um numero baseado nas habilidades
+     * do Jogador
+     * @param input String com formatação CSV
+     * @return Jogador
+     */
     public static Defesa parse(String input){
         String[] campos = input.split(",");
         if (campos.length<10){
@@ -47,6 +53,8 @@ public class Defesa extends Jogador {
         this.carrinhos = carrinhos;
     }
 
+
+    @Override
     public int Rating(){
         double doub= (((getCabeca()*1)+(getDestreza()*1)+(getImpulsao()*0.75)+(getRemate()*0.25)
                 +(getVelocidade()*0.25)+(getResistencia()*1.25)+(getPasse()*1.75)+(getCarrinhos()*1.75))/8);

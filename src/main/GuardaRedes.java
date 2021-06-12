@@ -21,6 +21,13 @@ public class GuardaRedes extends Jogador{
         this.elasticidade = elasticidade;
     }
 
+    /**
+     * Metodo que Cria um Jogador dependendo do input por ficheiro de texto
+     * Caso não haja valor para habiidade especial ele gera um numero baseado nas habilidades
+     * do Jogador
+     * @param input String com formatação CSV
+     * @return Jogador
+     */
     public static GuardaRedes parse(String input){
         String[] campos = input.split(",");
         return new GuardaRedes(campos[0], Integer.parseInt(campos[1]),

@@ -1,5 +1,6 @@
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -26,10 +27,6 @@ public class Equipa implements Serializable {
         jogadores = new ArrayList<>(team.jogadores);
     }
 
-    public static Equipa parse(String s) {
-        return new Equipa(s);
-    }
-
     public String getNome() {
         return nome;
     }
@@ -38,7 +35,22 @@ public class Equipa implements Serializable {
         this.nome = nome;
     }
 
+    /**
+     * Metodo que Cria ua Equipa dependendo do input por ficheiro de texto
+     * do Jogador
+     * @param s String com formatação CSV
+     * @return Equipa
+     */
+    public static Equipa parse(String s) {
+        return new Equipa(s);
+    }
 
+
+
+    /**
+     * Metodo que insere um jogador numa equipa e atualiza o seu historico
+     * @param j jogador a ser inserido
+     */
     public void insereJogador(Jogador j){
         if (!this.isPresent(j)){
             j.setHistorico(this.getNome());
@@ -48,18 +60,26 @@ public class Equipa implements Serializable {
         }else throw new IllegalArgumentException("Player already in team");
     }
 
-    public void removePlayerTeam(Jogador j) {
+    /**
+     * Metodo que Remove 1 jogador d da lista de jogadores de um Estado
+     * @param j Jogador a ser removido
+     * @throws  NotFoundException caso nao encontre o jogador
+     */
+    public void removePlayerTeam(Jogador j) throws NotFoundException {
         if (this.isPresent(j)) {
             this.jogadores.removeIf(r -> r.nameEquals(j.getNomeJogador()));
-        } else throw new IllegalArgumentException("Player not in Team");
+        } else throw new NotFoundException("Player not in Team");
     }
-
-
 
     public List<Jogador> getJogadores() {
         return jogadores;
     }
 
+    /**
+     * Métodoq que verifica se um jogador esta presente numa lista de jogadores
+     * @param j Jogador a ser procurado
+     * @return True se encontrar, False caso contrario
+     */
     public boolean isPresent(Jogador j) {
         return this.jogadores.stream().anyMatch(f->f.nameEquals(j.getNomeJogador()));
     }
@@ -72,6 +92,11 @@ public class Equipa implements Serializable {
         this.jogadores = jogadores;
     }
 
+    /**
+     *Metodo Equipa.toString
+     * @return O nome da equipa e caso existam, cada jogador, posição e o seu rating
+     *
+     */
     public String toString(){
         StringBuilder r = new StringBuilder("\nEquipa:" + nome + "\n");
         if (jogadores.size()>0) {
@@ -84,11 +109,20 @@ public class Equipa implements Serializable {
         return r.toString();
     }
 
+    /**
+     * Devolve a Média de valores de todos os jogadores da equipa
+     * @return int média da equipa
+     */
     public  int RatingEquipa(){
         int sum = this.jogadores.stream().mapToInt(Jogador::Rating).sum();
         return (int) (sum / (long) this.jogadores.size());
     }
 
+    /**
+     * Metodo que dada uma Lista de Jogadores devolve a média do rating desses 11 jogadores
+     * @param players Lista de Jogadores
+     * @return A média dos seus ratings
+     */
     public int ratingJogadores(List<Integer> players){
 
             List<Jogador> res = jogadores.stream(). //vai a lista de jogadores da equipa
@@ -99,6 +133,12 @@ public class Equipa implements Serializable {
             return (res.stream().mapToInt(Jogador::Rating).sum() / 11);
     }
 
+    /**
+     * Metodo que devolve o indice de um Jogador na Lista Estado.joadores
+     * @param nomeJogador   Nome do Jogador a procurar
+     * @return o seu indice
+     * @deprecated  NOT IN USE
+     */
     public int getIndexJogador(String nomeJogador) {
         Jogador j = jogadores.stream().filter(f->f.nameEquals(nomeJogador)).findAny().get();
         return this.jogadores.indexOf(j);

@@ -28,6 +28,11 @@ public class Jogo implements Serializable {
         substitucoesFora = new HashMap<>(sf);
     }
 
+    /**
+     * Metodo usado para criar 1 jogo apartir de um ficheiro de texto com formatação especifica
+     * @param input String que define o jogo
+     * @return  Jogo
+     */
     public static Jogo parse(String input){
         String[] campos = input.split(",");
         String[] data = campos[4].split("-");
@@ -126,6 +131,10 @@ public class Jogo implements Serializable {
         this.substitucoesFora = substitucoesFora;
     }
 
+    /**
+     * Metodo que verifica quel é o vencedor de um determinado jogo
+     * @return Venceor ou empate
+     */
     public String Vencedor(){
         if (this.golosCasa > this.golosFora) return this.equipaCasa;
         else if(this.golosFora > this.golosCasa) return this.equipaFora;
@@ -142,6 +151,10 @@ public class Jogo implements Serializable {
         + "\n\n";
     }
 
+    /**
+     * Metodo usado para apresentar os jogos de forma simples, a ser usado para apresentar uma lista de jogos
+     * @return String com os noes das equipas
+     */
     public String simpleToString(){
         return  "Jogo:" + equipaCasa + " vs. " + equipaFora;
     }

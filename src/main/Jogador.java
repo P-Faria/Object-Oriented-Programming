@@ -1,5 +1,6 @@
 import java.io.Serializable;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -14,7 +15,7 @@ public abstract class  Jogador implements Serializable {
     private String nomeJogador;
     private int numeroJogador;
     private int velocidade, resistencia, destreza, impulsao, cabeca, remate, passe;
-    private Set<String> historico;
+    private LinkedList<String> historico;
 
     public Jogador(String nomeJ, int numeroJ, int vel, int res, int des, int imp, int cab, int rem, int p) {
         nomeJogador = nomeJ;
@@ -26,7 +27,7 @@ public abstract class  Jogador implements Serializable {
         cabeca = cab;
         remate = rem;
         passe = p;
-        historico = new LinkedHashSet<>();
+        historico = new LinkedList<>();
     }
 
     public Jogador(Jogador j) {
@@ -39,7 +40,7 @@ public abstract class  Jogador implements Serializable {
         cabeca = j.getCabeca();
         remate = j.getRemate();
         passe = j.getPasse();
-        historico = new LinkedHashSet<String>(j.historico);
+        historico = new LinkedList<>(j.historico);
     }
 
     public String getNomeJogador() {
@@ -118,7 +119,7 @@ public abstract class  Jogador implements Serializable {
         this.historico.add(equipa);
     }
 
-    public Set<String> getHistorico() {
+    public List<String> getHistorico() {
         return historico;
     }
 
@@ -132,6 +133,11 @@ public abstract class  Jogador implements Serializable {
      */
     abstract public String prettyToString();
 
+       /**
+     * Metodo que é usado para criar valores random para habilidades não fornecidas no parse
+     * @param campos
+     * @return um valor para habilidade
+     */
     static int getSkillRandom(String[] campos) {
         int sum = 0;
         for (int i = 2; i < campos.length; i++) {
@@ -144,8 +150,18 @@ public abstract class  Jogador implements Serializable {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
+    /**
+     * Metodo que devolve a média de todas as habilidades de um jogador
+     * @return a média de todas as habiidades
+     */
     abstract public int Rating();
 
+
+    /**
+     *  Metodo que devolve a média das habilidades base de um jogador
+     * @return int média
+     * @deprecated Not in use
+     */
     public int RatingBase() {
         return ((cabeca + destreza + impulsao + remate
                 + velocidade + resistencia + passe) / 7);
@@ -153,6 +169,11 @@ public abstract class  Jogador implements Serializable {
 
     }
 
+    /**
+     * Metodo diz se um jogador tem nome igual a outro
+     * @param name nome a ser verrificado
+     * @return True se é igual False se não for igual
+     */
     public boolean nameEquals(String name){
         return this.nomeJogador.equals(name);
     }
@@ -167,9 +188,14 @@ public abstract class  Jogador implements Serializable {
     abstract public String specialName();
 
     /**
-     * Metodo para alterar a habilidade especifica da posição
+     * Setter para alterar a habilidade especifica da posição
      * @param special valor a ser introduzido
      */
     abstract public void setSpecial(int special);
+
+    /**
+     * Getter da Habilidade especial
+     * @return in valor da habilidade
+     */
     abstract public int getSpecial();
 }
