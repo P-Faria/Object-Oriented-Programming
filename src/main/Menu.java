@@ -212,7 +212,7 @@ public class Menu {
                 "     .=+HM######M+/+HM@+=.\n" +
                 "         ,:/%XM####H/.\n" +
                 "              ,.:=-.                    \"\"\""
-                +"\n\n Feito por:\n\n" +
+                +"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Feito por:\n\n" +
                 "\n" +
                 "    João Goulart - a82643\n" +
                 "\n" +
