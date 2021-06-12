@@ -151,21 +151,21 @@ public class Estado implements Serializable {
         int numGolos = (int)(Math.random()*6+1); //1d6
 
         while(numGolos>0 && (dif>0)){ //vantagem casa
-            if (roll(dif)) gc++;
-            else gf++;
+            if (roll(dif)==1) gc++;
+            else if (roll(dif)==0) gf++;
             numGolos--;
         }
 
         while(numGolos>0 && (dif==0)){
             igualdade =Math.random();
-            if (igualdade>0.5) gc++;
-            else gf++;
+            if (igualdade>0.6) gc++;
+            else if(igualdade<0.5) gf++;
             numGolos--;
         }
 
         while(numGolos>0){ // vantagem visitante
-            if (roll(Math.abs(dif))) gf++;
-            else gc++;
+            if (roll(Math.abs(dif))==0) gf++;
+            else if (roll(Math.abs(dif))==1) gc++;
             numGolos--;
         }
         Jogo jogado = new Jogo(ec,ef,gc,gf,d,jc,sc,jf,sf);
@@ -215,21 +215,21 @@ public class Estado implements Serializable {
         int numGolos = (int)(Math.random()*6+1); //1d6
 
         while(numGolos>0 && (dif>0)){
-            if (roll(dif)) game.setGolosCasa(game.getGolosCasa()+1);
-            else game.setGolosFora(game.getGolosFora()+1);
+            if (roll(dif)==0) game.setGolosCasa(game.getGolosCasa()+1);
+            else if (roll(dif)==1) game.setGolosFora(game.getGolosFora()+1);
             numGolos--;
         }
 
         while(numGolos>0 && (dif==0)){
             igualdade = Math.random(); //flip a coin
-            if (igualdade>0.5) game.setGolosCasa(game.getGolosCasa()+1);
-            else game.setGolosFora(game.getGolosFora()+1);
+            if (igualdade>0.6) game.setGolosCasa(game.getGolosCasa()+1);
+            else if(igualdade<0.5) game.setGolosFora(game.getGolosFora()+1);
             numGolos--;
         }
 
         while(numGolos>0){
-                if (roll(Math.abs(dif))) game.setGolosFora(game.getGolosFora()+1);
-                else game.setGolosCasa(game.getGolosCasa()+1);
+                if (roll(Math.abs(dif))==0) game.setGolosFora(game.getGolosFora()+1);
+                else if(roll(Math.abs(dif))==1) game.setGolosCasa(game.getGolosCasa()+1);
                 numGolos--;
         }
         return game;
@@ -237,20 +237,22 @@ public class Estado implements Serializable {
     /**
      * Metodo que faz o lançamento de dados usando um fator de vantagem e devolve se foi golo ou não
      * @param num um valor que é usado para dar vantagem a equipas fortes
-     * @return se é golo
+     * @return 1 se for golo para equipa pior rating, 0 se a equipa de melhor rating marca, e 2 caso ninguem marque
      */
-    private boolean roll(int num){
+    private int roll(int num){
         int res;
         if (num>10) res=(((num-10)/2)+5); //d&d5th edition +5 pelos negativos
         else res = num/2;// 1 a 5
         int dice1=(int)(Math.random()*6+1);
-
-        return dice1 + (res) > 6;
+        if (dice1 == 3) return 2; // critical (nmg marca golo)
+        if(dice1 + (res) > 6) return 0;
+        else if (dice1 + (res) < 6) return 1;
+        else return 2; // mesmo 1 equipa dominante manda á trave
     }
 
 
     /**
-     * Metodo que substitui jogadores num jogo
+     * Metodo que substitui jogadores numa lista de jogadores
      * @param jc Lista que contem os jogadores atuais
      * @param sc Map que contem as substituições
      * @return jc com substituições efetuadas
@@ -275,7 +277,7 @@ public class Estado implements Serializable {
      * @param e1 Equipa Origem
      * @param e2 Equipa Destino
      */
-    public void transferencia(Jogador j,Equipa e1,Equipa e2){
+    public void transferencia(Jogador j,Equipa e1,Equipa e2) throws NotFoundException {
         e1.removePlayerTeam(j);
         e2.insereJogador(j);
         int key = -1;
@@ -314,7 +316,7 @@ public class Estado implements Serializable {
 
     /**
      * Metodo para gravar um ficheiro objeto
-     * @param fileName
+     * @param fileName local onde sera gravado
      * @throws IOException
      */
     public void save(String fileName) throws IOException {
@@ -325,7 +327,12 @@ public class Estado implements Serializable {
         fos.close();
     }
 
-    // Load from object file
+    /**
+     * Metodo que Carrega um Estado desde um objeto
+     * @param fileName local onde está guardado o objeto
+     * @return Estado que foi guardado previamente
+     *
+     */
     public static Estado load(String fileName) throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream(fileName);
         ObjectInputStream ois = new ObjectInputStream(fis);

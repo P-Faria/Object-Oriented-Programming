@@ -146,7 +146,7 @@ public class Menu {
     }
 
     public static void menuEditar() {
-        String menu = "\n1 <> Transferir Jogador\n2 <> Modificar Valores Jogador\n3 <> Editar Equipa\n4 <> Voltar ao Menu Principal\n";
+        String menu = "\n1 <> Transferir Jogador\n2 <> Modificar Valores Jogador\n3 <> Editar Equipa\n4 <> Remover Jogador da Equipa\n5 <> Voltar ao Menu Principal\n";
         System.out.print(menu);
     }
 
@@ -223,4 +223,10 @@ public class Menu {
                 "    Tiago Rodrigues - a87952\n";
         System.out.print(menu);
     }
+
+    public static void menuEditarRemoverJogador() {
+        String menu= "\nPor Favor Introduza o nome do Jogador a Remover\n";
+        System.out.print(menu);
+        }
+
 }

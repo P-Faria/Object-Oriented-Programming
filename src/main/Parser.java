@@ -8,6 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 public class Parser {
+
+    /**
+     * Metodo que popula um ESTADO apartir de um ficheiro formatado em CSV
+     * @param e Estado onde serão inseridos os dados
+     * @param nomeFich localização e nome do ficheiro
+     * @throws LinhaIncorretaException Caso o ficheiro não esteja bem formatado
+     */
     public static void parse(Estado e,String nomeFich) throws LinhaIncorretaException {
         List<String> linhas = new ArrayList<>();
         try {
@@ -86,7 +93,12 @@ public class Parser {
 
     }
 
-
+    /**
+     * Metodo que le 1 ficheiro e o transforma numa Lista
+     * @param nomeFich localização e nome do ficheiro
+     * @return uma Lista com todas as Strings idas
+     * @throws IOException Caso o ficheiro não exista
+     */
     public static List<String> lerFicheiro(String nomeFich) throws IOException {
         List<String> lines;
         try {

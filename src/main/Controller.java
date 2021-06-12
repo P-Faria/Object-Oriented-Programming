@@ -359,6 +359,7 @@ public class Controller {
                         Menu.menuEditarTransfer();
                         String nomeJog = inputScanner.nextLine() +inputScanner.nextLine();
                         Jogador player;
+
                         try {
                             player = status.getJogadorByName(nomeJog);
                         }catch (NotFoundException nfe){
@@ -369,8 +370,16 @@ public class Controller {
                         String currentT  = status.getTeamNameifPlayerPresent(player);
                         Menu.menuEditarTransferTo(currentT);
                         String teamTo = inputScanner.nextLine() + inputScanner.nextLine();
-                        status.transferencia(player,status.equipas.get(currentT),status.equipas.get(teamTo));
 
+                        try {
+                            status.transferencia(player,status.equipas.get(currentT),status.equipas.get(teamTo));
+                        }catch (NotFoundException nfE){
+                            System.out.println(nfE);
+                            pressEnterKeyToContinue();
+                            break;
+                        }
+                        pressEnterKeyToContinue();
+                        break;
                     }else if (option==2){// Modificar valores jogador
                         Menu.menuEditarHabilidade();
                         String nomeJog = inputScanner.nextLine() + inputScanner.nextLine();
@@ -434,7 +443,7 @@ public class Controller {
                                 break;
                         }
 
-                    }else if (option==3){// Editar Equipa
+                    }else if (option==3) {// Editar Equipa
                         Menu.menuEditarEquipa();
                         String nomeEquipa = inputScanner.nextLine() + inputScanner.nextLine();
                         Equipa e = status.equipas.get(nomeEquipa);
@@ -442,12 +451,18 @@ public class Controller {
                         String novoNomeEquipa = inputScanner.nextLine() + inputScanner.nextLine();
                         e.setNome(novoNomeEquipa);
                         status.equipas.remove(nomeEquipa);
-                        status.equipas.put(e.getNome(),e);
+                        status.equipas.put(e.getNome(), e);
                         System.out.print(e);
                         pressEnterKeyToContinue();
                         break;
 
-                    }else if (option==4) break;
+                    }else if (option==4){
+                        Menu.menuEditarRemoverJogador();
+                        String nomeJogador= inputScanner.nextLine() + inputScanner.nextLine();
+
+
+
+                    }else if (option==5) break;
 
                 case 7:
                     Menu.menuCake();
@@ -489,7 +504,11 @@ public class Controller {
                         if (loadLoc.equals("")) loadLoc = "src/bin/save.obj";
                         status = new Estado();
                         System.out.println("\nA carregar de:" + loadLoc);
-                        status = Estado.load(loadLoc);
+                        try {
+                            status = Estado.load(loadLoc);
+                        }catch (Exception e){
+                            System.out.println("Erro a Carregar");
+                        }
                         System.out.println("\nEstado Carregado!\nA voltar ao menu principal\n");
                         break;
                     }
