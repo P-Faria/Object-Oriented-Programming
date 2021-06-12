@@ -5,8 +5,8 @@ public class Menu {
         StringBuilder sb = new StringBuilder("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\t\tFootball Manager\n");
                 sb.append("\n  Universidade do Minho Edition\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
                 sb.append("1 <> Carregar ficheiros\n2 <> Criação e Alteração de Dados\n");
-                if (!loaded) sb.append("3 <> Consultar Dados\n4 <> Calcular Resultados\n5 <> Editar Dados\n8 <> Gravar objeto ( ObjectStream)\n");
-                sb.append("9 <> Carregar (de ObjectStream)\n\n0 <> Sair.\n");
+                if (!loaded) sb.append("3 <> Consultar Dados\n4 <> Calcular Resultados\n5 <> Editar Dados\n8 <> Gravar\n");
+                sb.append("9 <> Carregar\n\n0 <> Sair.\n");
                 System.out.print(sb);
     }
 
@@ -67,7 +67,7 @@ public class Menu {
     }
 
     public static void menuConsulta() {
-        String menu= "\n1 <> Consultar Equipas\n2 <> Consultar Jogadores\n3 <> Voltar ao Menu Inicial\n";
+        String menu= "\n1 <> Consultar Equipas\n2 <> Consultar Jogadores\n3 <> Consultar Jogo\n4 <> Voltar ao Menu Inicial\n";
         System.out.print(menu);
 
     }
@@ -182,6 +182,43 @@ public class Menu {
 
     public static void menuEditarEquipaNovo() {
         String menu= "\nPor Favor introduza o novo nome para a equipa:\n";
+        System.out.print(menu);
+    }
+
+    public static void menuConsultaJogo() {
+        String menu= "\nPor Favor introduza o numero do Jogo que deseja verificar\n";
+        System.out.print(menu);
+    }
+
+
+    public static void menuCake() {
+        String menu = "\n" +"\"\"\"            ,:/+/-\n" +
+                "            /M/              .,-=;//;-\n" +
+                "       .:/= ;MH/,    ,=/+%$XH@MM#@:\n" +
+                "      -$##@+$###@H@MMM#######H:.    -/H#\n" +
+                " .,H@H@ X######@ -H#####@+-     -+H###@X\n" +
+                "  .,@##H;      +XM##M/,     =%@###@X;-\n" +
+                "X%-  :M##########$.    .:%M###@%:\n" +
+                "M##H,   +H@@@$/-.  ,;$M###@%,          -\n" +
+                "M####M=,,---,.-%%H####M$:          ,+@##\n" +
+                "@##################@/.         :%H##@$-\n" +
+                "M###############H,         ;HM##M$=\n" +
+                "#################.    .=$M##M$=\n" +
+                "################H..;XM##M$=          .:+\n" +
+                "M###################@%=           =+@MH%\n" +
+                "@################M/.          =+H#X%=\n" +
+                "=+M##############M,       -/X#X+;.\n" +
+                "  .;XM##########H=    ,/X#H+:,\n" +
+                "     .=+HM######M+/+HM@+=.\n" +
+                "         ,:/%XM####H/.\n" +
+                "              ,.:=-.                    \"\"\""
+                +"\n\n Feito por:\n\n" +
+                "\n" +
+                "    João Goulart - a82643\n" +
+                "\n" +
+                "    Pedro Faria - a72640\n" +
+                "\n" +
+                "    Tiago Rodrigues - a87952\n";
         System.out.print(menu);
     }
 }

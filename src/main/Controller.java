@@ -150,7 +150,7 @@ public class Controller {
                     }
                     Menu.clean();
                     option = 0;
-                    while (1 > option || option > 3) {
+                    while (1 > option || option > 4) {
                         Menu.menuConsulta();
                         option = inputScanner.nextInt();
                         Menu.clean();
@@ -176,15 +176,15 @@ public class Controller {
                     } else if (option == 2) { //consultar jogadores
                         Menu.menuConsultaJogador();
                         String consultJog = inputScanner.nextLine() + inputScanner.nextLine();
-                        if(consultJog.equals("")) {
+                        if (consultJog.equals("")) {
                             System.out.print(status.jogadores.toString());
                             pressEnterKeyToContinue();
                             break;
-                        }else if (!(status.isPlayer(consultJog))) {
+                        } else if (!(status.isPlayer(consultJog))) {
                             System.out.println("Nome Incorreto");
                             pressEnterKeyToContinue();
                             break;
-                        } else{
+                        } else {
                             Jogador jog = status.getJogadorByName(consultJog);
                             if (status.isPlayerinAnyTeam(jog)) {
                                 System.out.print(jog.prettyToString());
@@ -194,6 +194,18 @@ public class Controller {
                             break;
                         }
 
+                    }else if (option == 3){// Consultar Jogo
+                        System.out.print(status.jogoToStringList());
+                        Menu.menuConsultaJogo();
+                        int jogo = inputScanner.nextInt();
+                        while(jogo>status.jogos.size() || 0>jogo){
+                            System.out.print("Jogo invalido!\n");
+                            Menu.menuConsultaJogo();
+                            jogo = inputScanner.nextInt();
+                        }
+                        System.out.print(status.jogos.get(jogo-1).toString());
+                        pressEnterKeyToContinue();
+                        break;
                     }else {
                         System.out.println("Voltando ao Menu Inical\n");
                         break;
@@ -349,7 +361,12 @@ public class Controller {
 
                     }else if (option==4) break;
 
-
+                case 7:
+                    Menu.menuCake();
+                    pressEnterKeyToContinue();
+                    Menu.clean();
+                    System.out.print("Cake is a Lie\n");
+                    break;
 
                 case 8:
                     Menu.clean();

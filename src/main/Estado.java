@@ -288,4 +288,16 @@ public class Estado implements Serializable {
         fis.close();
         return loaded;
     }
+
+    public String jogoToStringList(){
+        StringBuilder sb =new StringBuilder("Jogos:\n");
+        for(int i=0;i<this.jogos.size();i++){
+            sb.append(i+1);
+            sb.append(" <> ");
+            sb.append(this.jogos.get(i).simpleToString());
+            sb.append("\n");
+        }
+        sb.append("\n");
+        return sb.toString();
+    }
 }

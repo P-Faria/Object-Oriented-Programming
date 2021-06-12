@@ -135,17 +135,15 @@ public class Jogo implements Serializable {
     public String toString() {
         return  "Jogo:" + equipaCasa + " vs. " + equipaFora
         + "\nData de Jogo:" + date.toString()
-        + "\nResulstado:" + golosCasa + " : " + golosFora
+        + "\nResultado: " + golosCasa + ":" + golosFora
         + "\nVencedor:"   + this.Vencedor()
         + "\nSubs Casa -> " + substituicoesCasa.toString()
-        + "\nSubs Fora -> " + substitucoesFora.toString();
+        + "\nSubs Fora -> " + substitucoesFora.toString()
+        + "\n\n";
     }
 
-
-
-
-
-
-
+    public String simpleToString(){
+        return  "Jogo:" + equipaCasa + " vs. " + equipaFora;
+    }
 
 }
