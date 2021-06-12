@@ -1,10 +1,12 @@
+/**
+ * Classe que gere todos os menus do Projeto
+ */
 public class Menu {
-    //POSSO TER VARIAS VIEWS POR EXEMPLO UMA VIEW POR CADA MENU
 
     public static void menuPrincipal(boolean loaded) {
         StringBuilder sb = new StringBuilder("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\t\tFootball Manager\n");
                 sb.append("\n  Universidade do Minho Edition\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-                sb.append("1 <> Carregar ficheiros\n2 <> Criação e Alteração de Dados\n");
+                sb.append("1 <> Carregar ficheiros\n2 <> Criação de Equipas e Jogadores\n");
                 if (!loaded) sb.append("3 <> Consultar Dados\n4 <> Calcular Resultados\n5 <> Editar Dados\n8 <> Gravar\n");
                 sb.append("9 <> Carregar\n\n0 <> Sair.\n");
                 System.out.print(sb);
@@ -51,7 +53,7 @@ public class Menu {
     }
 
     public static void menuCreationJogadorStatsCustom() {
-        String menu= "\nPor Favor Insira 8 valores entre 1 e 100, 1 a 1 pressionando enter após cada valor\nvelocidade,"
+        String menu= "\nPor Favor Insira 8 valores entre 1 e 99, 1 a 1 pressionando enter após cada valor\nvelocidade,"
         +   "resistencia, destreza, impulsao, cabeca, remate, passe, habilidade especifica da posição\n";
         System.out.print(menu);
     }

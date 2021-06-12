@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Classe que funciona como base de dados e logica de jogo
+ */
 public class Estado implements Serializable {
     Map<String, Equipa> equipas;//nome, equipa
     Map<Integer, Jogador> jogadores; //numero, jogador
@@ -23,23 +26,6 @@ public class Estado implements Serializable {
         jogos = new ArrayList<>(jogos);
     }
 
-    public boolean isPlayer(String nome) {
-        return jogadores.values().stream().anyMatch(f-> f.nameEquals(nome));
-    }
-    public Jogador getJogadorByName(String nome){
-        return jogadores.values().stream().filter(f->f.nameEquals(nome)).findAny().get();
-    }
-
-    public String getTeamNameifPlayerPresent(Jogador jog) {
-        for (Equipa t : equipas.values()) {
-            if (t.getJogadores().stream().anyMatch(f->f.nameEquals(jog.getNomeJogador()))) return t.getNome();
-        }
-        throw new InvalidParameterException("getTeamNameifPlayerPresent == false");
-    }
-
-    public boolean isPlayerinAnyTeam(Jogador jog){
-        return equipas.values().stream().anyMatch(f->f.getJogadores().contains(jog));
-    }
 
     public Map<String, Equipa> getEquipas() {
         return equipas;
@@ -64,7 +50,55 @@ public class Estado implements Serializable {
     public void setJogos(List<Jogo> jogos) {
         this.jogos = jogos;
     }
-    /*
+    /**
+     * Metodo que verifica se um nome existe na base de dados de jogadores
+     * @param nome nome a ser verificado
+     * @return boolean true se existe, falso se não existir
+     */
+    public boolean isPlayer(String nome) {
+        return jogadores.values().stream().anyMatch(f-> f.nameEquals(nome));
+    }
+
+    /**
+     * Metodo que dado uma String devolve o jogador com nome igual a essa String
+     * @param nome Com o nome a procurar
+     * @return  Jogador com nome igual á string dada
+     * @throws  NotFoundException caso o jogador não esteja presente na lista de jogadores
+     */
+    public Jogador getJogadorByName(String nome) throws NotFoundException {
+        if (jogadores.values().stream().anyMatch(f->f.nameEquals(nome))){
+            return jogadores.values().stream().filter(f->f.nameEquals(nome)).findAny().get();
+        }else throw new NotFoundException("Nome nao esta presente em Estado.jogadores");
+
+    }
+
+    /**
+     * Metodo que dado 1 jogador procura se existe alguma equipa em que essteja presente e devove essa lista
+     * @param jog Jogador a ser provruado
+     * @return  String do nome da equipa
+     * @throws NotFoundException caso o jogador não se encontre em nenhuma equipa
+     */
+    public String getTeamNameifPlayerPresent(Jogador jog) throws NotFoundException {
+        for (Equipa t : equipas.values()) {
+            if (t.getJogadores().stream().anyMatch(f->f.nameEquals(jog.getNomeJogador()))) return t.getNome();
+        }
+        throw new NotFoundException("Jogador não está em nenhuma equip");
+    }
+
+    /**
+     * Metodo que procura se o jogador se encontra em alguma equipa
+     * @param jog Jogador a ser procurado
+     * @return True caso ele esteja, False caso nao esteja em nenhuma equipa
+     */
+    public boolean isPlayerinAnyTeam(Jogador jog) {
+        return equipas.values().stream().anyMatch(f -> f.isPresent(jog));
+    }
+
+
+    /**
+     * Metodo que imprime os valores de todas as equipas e todos os jogos
+     * @deprecated nao é usado atualmente
+     */
     public void debug(){
         for (Equipa Ee: this.equipas.values()){
             System.out.println(Ee.toString());
@@ -72,7 +106,7 @@ public class Estado implements Serializable {
         for (Jogo jog: this.jogos){
             System.out.println(jog.toString());
         }
-    }*/
+    }
 
     /**
      * Metodo que dado um jogo decide um vencedor dependendo dos ratings das equipas levadas para o jogo, este metodo
@@ -82,9 +116,10 @@ public class Estado implements Serializable {
      * @param d     Data do jogo (caso seja null sera introduzida a data atual)
      * @param jc    lista de jogadores da equipa da Casa titulares
      * @param sc    Map das substituições a fazer da equipa da Casa
-     * @param jf    Map das substituições a fazer da equipa Visitante
-     * @param sf    lista de jogadores da equipa Visitante titulares
+     * @param jf    lista de jogadores da equipa Visitante titulares
+     * @param sf    Map das substituições a fazer da equipa Visitante
      * @return  O Jogo após ter sido jogado
+     * @throws  EmptyParameterException caso ec,ef,jc ou jf estejam vazios
      */
     public Jogo Jogar (String ec,String ef, LocalDate d, List<Integer> jc,Map<Integer, Integer> sc, List<Integer> jf, Map<Integer, Integer> sf) throws EmptyParameterException {
         int rCasa,rFora,rCasaSub,rForaSub;double igualdade;
@@ -128,7 +163,7 @@ public class Estado implements Serializable {
             numGolos--;
         }
 
-        while(numGolos>0 && (dif<0)){ // vantagem visitante
+        while(numGolos>0){ // vantagem visitante
             if (roll(Math.abs(dif))) gf++;
             else gc++;
             numGolos--;
@@ -223,12 +258,11 @@ public class Estado implements Serializable {
      */
     private List<Integer> substitui(List<Integer> jc,Map<Integer, Integer> sc) throws InvalidParameterException {
 
-        for (Integer key : sc.keySet()) {
+        for (Integer key : sc.keySet()) { //para todas as Keys do cojuto de keys do MAP
 
-            if (jc.contains(key)) {
-                jc.set(jc.indexOf(key), sc.get(key));
+            if (jc.contains(key)) { // Se a key esta presente na lista de jogadores
+                jc.set(jc.indexOf(key), sc.get(key)); // substitui pelo value associado a key
             } else throw new InvalidParameterException("Estado.substitui invalid key");
-
         }
         return jc;
     }
@@ -247,19 +281,27 @@ public class Estado implements Serializable {
         int key = -1;
         try{
             key = this.getPlayerIndex(j);
-        }catch (ParameterNotInScopeException pmn){
-            System.exit(6);
+        }catch (ParameterNotInScopeException pnsE){
+            System.out.println(pnsE);
+            System.exit(1);
         }
         this.jogadores.put(key,j.clone());
 
     }
 
-
+    /**
+     * Metodo que dado 1 Jogador atualiza as suas informaçoes na equipa
+     * @param j Jogador a ser procurado
+     * @throws NotFoundException Caso nao esteja presente em nenhuma equipa
+     */
     public void updatePlayer(Jogador j) throws NotFoundException {
-        Equipa e =this.equipas.values().stream().filter(f->f.isPresent(j)).findAny().orElseThrow(NotFoundException::new);
+
+        Equipa e =this.equipas.values().stream().filter(f->f.isPresent(j))
+                .findAny().orElseThrow(NotFoundException::new);
         e.removePlayerTeam(j);
         e.insereJogador(j);
     }
+
     public int getPlayerIndex(Jogador j) throws ParameterNotInScopeException {
         for (Map.Entry<Integer, Jogador> entry : jogadores.entrySet()) {
             if (entry.getValue().equals(j)) {
@@ -270,7 +312,11 @@ public class Estado implements Serializable {
     }
 
 
-    // Save in object file
+    /**
+     * Metodo para gravar um ficheiro objeto
+     * @param fileName
+     * @throws IOException
+     */
     public void save(String fileName) throws IOException {
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -289,6 +335,10 @@ public class Estado implements Serializable {
         return loaded;
     }
 
+    /**
+     * Metodo que devolve uma String com a lista de todos os jogos e o seu indice
+     * @return Uma lista de todos os jogos e o seu indice
+     */
     public String jogoToStringList(){
         StringBuilder sb =new StringBuilder("Jogos:\n");
         for(int i=0;i<this.jogos.size();i++){

@@ -125,6 +125,11 @@ public abstract class  Jogador implements Serializable {
     public String toString() {
         return this.nomeJogador + "\n";
     }
+
+    /**
+     * Metodo para ser usado aquando da consulta de um jogador
+     * @return String dos dados do jogador
+     */
     abstract public String prettyToString();
 
     static int getSkillRandom(String[] campos) {
@@ -154,7 +159,17 @@ public abstract class  Jogador implements Serializable {
 
 
     abstract public Jogador clone();
+
+    /**
+     * Metodo para receber o nome da Habilidade especifica de jogador
+     * @return String com o nome da Habilidade especifica
+     */
     abstract public String specialName();
+
+    /**
+     * Metodo para alterar a habilidade especifica da posição
+     * @param special valor a ser introduzido
+     */
     abstract public void setSpecial(int special);
     abstract public int getSpecial();
 }

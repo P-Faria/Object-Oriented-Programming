@@ -3,8 +3,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Classe que controla  o funcionamento do projeto.
+ */
 public class Controller {
 
+    /**
+     * Metodo que inicia o Projeto
+     * @throws Exception varias
+     */
     public static void start() throws Exception {
         Estado status = null;
         Scanner inputScanner = new Scanner(System.in);
@@ -39,7 +46,9 @@ public class Controller {
                     try {
                         Parser.parse(status, nomeFich);
                     } catch (Exception e) {
-                        System.out.println("Erro durante o Carregamento\n");
+                        System.out.println("Erro durante o Carregamento do ficheiro\n");
+                        pressEnterKeyToContinue();
+                        break;
                     }
 
                     System.out.println("\nCarregamento efetuado\n");
@@ -87,12 +96,17 @@ public class Controller {
                                 rem = inputScanner.nextInt();
                                 pas = inputScanner.nextInt();
                                 spe = inputScanner.nextInt();
-                                if ((vel > 0 && vel < 100) && (res > 0 && res < 100) && (des > 0 && des < 100) &&
-                                        (imp > 0 && imp < 100) && (cab > 0 && cab < 100) && (rem > 0 && rem < 100) &&
-                                        (pas > 0 && pas < 100) && (spe > 0 && spe < 100)) check = 1;
-                                else {
-                                    System.out.println("Valor incorreto\n");
-                                    check = 0;
+                                try {
+                                    if ((vel > 0 && vel < 100) && (res > 0 && res < 100) && (des > 0 && des < 100) &&
+                                            (imp > 0 && imp < 100) && (cab > 0 && cab < 100) && (rem > 0 && rem < 100) &&
+                                            (pas > 0 && pas < 100) && (spe > 0 && spe < 100)) check = 1;
+                                    else {
+                                        throw new ParameterNotInScopeException("Valor não está entre 1 e 99\n");
+
+                                    }
+                                }catch(ParameterNotInScopeException pns){
+                                    System.out.print(pns);
+                                    check =0;
                                 }
                             }
 
@@ -110,42 +124,69 @@ public class Controller {
                             System.out.println("opção invalida, regressando a menu principal");
                             break;
                         }
-                        String nomeEquipa ;
-                        Menu.menuCreationJogadorEquipa();
-                        option = inputScanner.nextInt();
-                        if (option == 1) {
-                            Menu.menuCreationJogadorEquipaSim();
-                            nomeEquipa = inputScanner.nextLine() + inputScanner.nextLine();
-                        } else nomeEquipa = null;
+                        String nomeEquipa="";
+                        if (!(status.equipas.isEmpty())) {
+                            Menu.menuCreationJogadorEquipa();
+                            option = inputScanner.nextInt();
+                            if (option == 1) {
+                                Menu.menuCreationJogadorEquipaSim();
+                                nomeEquipa = inputScanner.nextLine() + inputScanner.nextLine();
+                            } else nomeEquipa = "Se te quiseres preocupar, preocupa-te";
+                        }
                         Jogador jog;
                         switch (pos) {
                             case 1:
                                 jog = new GuardaRedes(jNome, jNum, vel, res, des, imp, cab, rem, pas, spe);
+                                break;
                             case 2:
                                 jog = new Defesa(jNome, jNum, vel, res, des, imp, cab, rem, pas, spe);
+                                break;
                             case 3:
                                 jog = new Lateral(jNome, jNum, vel, res, des, imp, cab, rem, pas, spe);
+                                break;
                             case 4:
                                 jog = new Medio(jNome, jNum, vel, res, des, imp, cab, rem, pas, spe);
+                                break;
                             case 5:
                                 jog = new Avancado(jNome, jNum, vel, res, des, imp, cab, rem, pas, spe);
                                 break;
                             default:
-                                throw new ParameterNotInScopeException("Unexpected value: " + pos);
+                                throw new ParameterNotInScopeException("Unexpected value for POS: " + pos);
                         }
-                        int idMax = status.jogadores.keySet().stream().max(Integer::compareTo).orElse(0);
-                        status.jogadores.put(idMax + 1, jog);
-                        if (nomeEquipa != null && status.equipas.containsKey(nomeEquipa))
-                            status.equipas.get(nomeEquipa).insereJogador(jog);
-                        else {
-                            System.out.println("Nome de Equipa Inexistente");
-                            break;
+                        /*
+                        Tambem funcionaria um sstatus.jogadores.values().size(), mas esta solução permite-nos usar
+                        o orElse, para inicializar idMax caso nao exista nenhuma entrada o que torna mais consistente
+                        o uso do idMax (se for iniciado a 0 teria de se usar um if para garantir que num map vazio
+                        0 seria sempre a 1a entrada)
+                         */
+                        int idMax = status.jogadores.keySet().stream().max(Integer::compareTo).orElse(-1);
 
+
+                        status.jogadores.put(idMax + 1, jog);
+                        if (nomeEquipa.equals("Se te quiseres preocupar, preocupa-te") || nomeEquipa.equals("")) {
+                            System.out.println("Jogador Criado");
+                            break;
+                        }
+                        else{
+                            try {
+                            if (status.equipas.containsKey(nomeEquipa))
+                                status.equipas.get(nomeEquipa).insereJogador(jog);
+                            else {
+                                throw new NotFoundException("Equipa não encontrada");
+                            }
+                            }catch (NotFoundException nfE){
+                                System.out.print(nfE);
+                                System.out.print("\nJogador Criado <> mas não foi inserido em Equipa\n");
+                                pressEnterKeyToContinue();
+                                break;
+                            }
                         }
                     }else break;
-                case 3:
-                    if (status == null) {
-                        System.out.println("Não se pode consultar algo que não existe!\n");
+                case 3:// Consultar dados
+                    try{ if (status== null)throw new NotFoundException("Se estas a ler isto é porque nao inicializaste a base de dados!\n");
+                    }catch (NotFoundException nfE){
+                        System.out.print(nfE);
+                        pressEnterKeyToContinue();
                         break;
                     }
                     Menu.clean();
@@ -156,6 +197,13 @@ public class Controller {
                         Menu.clean();
                     }
                     if (option == 1) {// consultar equipas
+                        try{
+                            if (status.equipas.isEmpty()) throw new EmptyParameterException("Crie equipas primeiro");
+                        }catch (EmptyParameterException emE){
+                            System.out.print(emE);
+                            pressEnterKeyToContinue();
+                            break;
+                        }
                         Menu.menuConsultaEquipas();
                         String consultEq = inputScanner.nextLine() + inputScanner.nextLine();
                         if (consultEq.equals("")) {
@@ -163,17 +211,24 @@ public class Controller {
                             pressEnterKeyToContinue();
                             break;
 
-                        }else if ((!Objects.requireNonNull(status).equipas.containsKey(consultEq))){
+                        }else if ((!status.equipas.containsKey(consultEq))){
                             throw new NotFoundException("Equipa inexistente");
                         }else{
                             Equipa team = status.equipas.get(consultEq);
                             System.out.print("\n" + team.toString());
-                            Controller.pressEnterKeyToContinue();
+                            pressEnterKeyToContinue();
                             break;
                         }
 
 
                     } else if (option == 2) { //consultar jogadores
+                        try{
+                            if (status.jogadores.isEmpty()) throw new EmptyParameterException("Crie jogadores primeiro");
+                        }catch (EmptyParameterException emE){
+                            System.out.print(emE);
+                            pressEnterKeyToContinue();
+                            break;
+                        }
                         Menu.menuConsultaJogador();
                         String consultJog = inputScanner.nextLine() + inputScanner.nextLine();
                         if (consultJog.equals("")) {
@@ -185,16 +240,33 @@ public class Controller {
                             pressEnterKeyToContinue();
                             break;
                         } else {
-                            Jogador jog = status.getJogadorByName(consultJog);
+                            Jogador jog;
+                            try {
+                                jog = status.getJogadorByName(consultJog);
+                            }catch (NotFoundException nfe){
+                                System.out.println(nfe);
+                                pressEnterKeyToContinue();
+                                break;
+                            }
                             if (status.isPlayerinAnyTeam(jog)) {
-                                System.out.print(jog.prettyToString());
+                                System.out.print(jog.prettyToString() + "\n\nJogador da Equipa: "
+                                        + status.getTeamNameifPlayerPresent(jog) + "\nEquipas onde Jogou:\n"
+                                        + jog.getHistorico());
                             } else
-                                System.out.print(jog.prettyToString() + "\n\nJogador da Equipa: " + status.getTeamNameifPlayerPresent(jog) + "\nEquipas onde Jogou:\n" + jog.getHistorico());
-                            Controller.pressEnterKeyToContinue();
+                                System.out.print(jog.prettyToString());
+
+                            pressEnterKeyToContinue();
                             break;
                         }
 
                     }else if (option == 3){// Consultar Jogo
+                        try{
+                            if (status.jogos.isEmpty()) throw new EmptyParameterException("Crie jogos primeiro");
+                        }catch (EmptyParameterException emE){
+                            System.out.print(emE);
+                            pressEnterKeyToContinue();
+                            break;
+                        }
                         System.out.print(status.jogoToStringList());
                         Menu.menuConsultaJogo();
                         int jogo = inputScanner.nextInt();
@@ -212,7 +284,7 @@ public class Controller {
                     }
 
 
-                case 4:
+                case 4: //Menu Calcular Resultados
                     Menu.clean();
                     option = 0;
                     if(status == null){
@@ -224,7 +296,7 @@ public class Controller {
                         option = inputScanner.nextInt();
                         Menu.clean();
                     }
-                    if (option == 1) {
+                    if (option == 1) { // Criar Jogo via input
                         Menu.menuJogoCriar();
                         String ec = inputScanner.nextLine() + inputScanner.nextLine();
                         if (!status.equipas.containsKey(ec)){
@@ -265,7 +337,7 @@ public class Controller {
                         pressEnterKeyToContinue();
                         break;
                     }
-                    else if(option==2){
+                    else if(option==2){ // calcular resultado de jogos em Base de dados
                         Menu.menuJogoReplay();
                         int nJogo = inputScanner.nextInt();
                         Jogo rePlay = status.jogos.get(nJogo);
@@ -276,7 +348,7 @@ public class Controller {
                         break;
                     }else break;
 
-                case 5:
+                case 5: // Editar dados
                     Menu.clean();
                     while (1 > option || option > 4) {
                         Menu.menuEditar();
@@ -286,7 +358,14 @@ public class Controller {
                     if (option==1){ // Transferir Jogador
                         Menu.menuEditarTransfer();
                         String nomeJog = inputScanner.nextLine() +inputScanner.nextLine();
-                        Jogador player = status.getJogadorByName(nomeJog);
+                        Jogador player;
+                        try {
+                            player = status.getJogadorByName(nomeJog);
+                        }catch (NotFoundException nfe){
+                            System.out.println(nfe);
+                            pressEnterKeyToContinue();
+                            break;
+                        }
                         String currentT  = status.getTeamNameifPlayerPresent(player);
                         Menu.menuEditarTransferTo(currentT);
                         String teamTo = inputScanner.nextLine() + inputScanner.nextLine();
@@ -295,7 +374,16 @@ public class Controller {
                     }else if (option==2){// Modificar valores jogador
                         Menu.menuEditarHabilidade();
                         String nomeJog = inputScanner.nextLine() + inputScanner.nextLine();
-                        Jogador player = status.getJogadorByName(nomeJog);
+                        Jogador player;
+                        try { // caso não esteja numa equipa
+                            player = status.getJogadorByName(nomeJog);
+                            if(!status.isPlayerinAnyTeam(player))
+                                throw new NotFoundException("Jogador nã esta em nenhuma equipa");
+                        }catch (NotFoundException nfe){
+                            System.out.println(nfe);
+                            pressEnterKeyToContinue();
+                            break;
+                        }
                         Menu.menuEditarHabilidade2(player.specialName());
                         option = inputScanner.nextInt();
                         int input;
@@ -306,7 +394,7 @@ public class Controller {
                                 if (input==0) input= (int) (Math.random() * 100) +1;
                                 player.setVelocidade(input);
                                 status.updatePlayer(player);
-                            case 2:
+                                case 2:
                                 Menu.menuEditarHabilidadeInput();
                                 input = inputScanner.nextInt();
                                 if (input==0) input= (int) (Math.random() * 100) +1;
@@ -382,7 +470,8 @@ public class Controller {
                             break;
                         } catch (Exception guard) {
                             System.out.println("Erro em: Guardar\n");
-                            System.exit(8);
+                            pressEnterKeyToContinue();
+                            break;
                         }
                     } else throw new NullPointerException("Não é possivel guardar objectos inexistentes");
                 case 9:
@@ -411,6 +500,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Metodo que cria um Map das substituições a serem realizadas
+     * @param local 1 se For equipa da casa 2 se for equipa visitante (usado apenas meramente para o display do menu)
+     * @return um Map com as substituições do formato sai -> entra
+     * @throws ParameterNotInScopeException caso um dos parametros não seja um valor válido
+     */
     private static Map<Integer, Integer> criarSubs(int local) throws ParameterNotInScopeException {
         Map<Integer,Integer> subs = new HashMap<>();
         Scanner inputScanner = new Scanner(System.in);
@@ -429,8 +524,10 @@ public class Controller {
         return subs;
     }
 
-
-        static private void pressEnterKeyToContinue () {
+    /**
+     * Metodo para esperar pelo input antes de prosseguir o display de menus
+     */
+    static private void pressEnterKeyToContinue () {
             System.out.println("\nPressione enter para continuar\n");
             try {
                 System.in.read();
@@ -438,7 +535,13 @@ public class Controller {
             }
         }
 
-        static private List<Integer> criaLista (String linha){
+    /**
+     * Metodo que devolve uma Lista de jogadores dado uma linha com valores separados por virgulas (CSV)
+     * com os numeros de Jogador
+     * @param linha uma String CSV com os numeros do jogadores
+     * @return uma Lista de Inteiros com os nmeros dos jogadores a entrar em campo
+     */
+    static private List<Integer> criaLista (String linha){
             String[] valores = linha.split(",");
             return Arrays.stream(valores).map(Integer::parseInt).collect(Collectors.toList());
         }

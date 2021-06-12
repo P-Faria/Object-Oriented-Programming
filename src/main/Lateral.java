@@ -1,7 +1,12 @@
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Classe que define um Lateral
+ */
 public class Lateral extends Jogador{
     private int cruzamento;
+
+
     public Lateral(String nomeJ, int numeroJ, int vel, int res, int des, int imp, int cab, int rem, int p, int cruz) {
         super(nomeJ, numeroJ, vel, res, des, imp, cab, rem, p);
         cruzamento = cruz;
