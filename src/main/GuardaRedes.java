@@ -45,8 +45,7 @@ public class GuardaRedes extends Jogador{
         double doub= (((getCabeca()*0.5)+(getDestreza()*0.75)+(getImpulsao()*1.50)+(getRemate()*1)
                 +(getVelocidade()*0.75)+(getResistencia()*0.75)+(getPasse()*1)+(getElasticidade()*1.75))/8);
 
-        return (int) doub;
-    }
+        return (int) doub;    }
 
     public String prettyToString(){
 

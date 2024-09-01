@@ -1,5 +1,7 @@
 public class Avancado extends Jogador {
     private int finalizacao;
+
+
     public Avancado(String nomeJ, int numeroJ, int vel, int res, int des, int imp, int cab, int rem, int p,int fin) {
         super(nomeJ, numeroJ, vel, res, des, imp, cab, rem, p);
         finalizacao= fin;

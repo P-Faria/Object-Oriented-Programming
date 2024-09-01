@@ -10,9 +10,9 @@ import java.util.Map;
  * Classe que funciona como base de dados e logica de jogo
  */
 public class Estado implements Serializable {
-    Map<String, Equipa> equipas;//nome, equipa
-    Map<Integer, Jogador> jogadores; //numero, jogador
-    List<Jogo> jogos;
+    private Map<String, Equipa> equipas;//nome, equipa
+    private Map<Integer, Jogador> jogadores; //numero, jogador
+    private List<Jogo> jogos;
 
     public Estado() {
     equipas = new HashMap<>();

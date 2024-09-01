@@ -350,7 +350,8 @@ public class Controller {
 
                 case 5: // Editar dados
                     Menu.clean();
-                    while (1 > option || option > 4) {
+                    option=0;
+                    while (1 > option || option > 6) {
                         Menu.menuEditar();
                         option = inputScanner.nextInt();
                         Menu.clean();
